@@ -26,10 +26,11 @@ public class XLSXToXMLDocument {
 	private static final String	DEFAULTLANG = "en";
 	private static final String LANGPARAMNAME = "axes1";
 	private static final String ATTRPARAMNAME = "attr";
+	private static final String ACTIONPARAMNAME = "sca";
 	private static final String SEPARATOR = "/";
 	
 	/**
-	 * This method builds the String array containing all content from the Excel, stores it in a JVM Servlet Content attribute, and returns it.
+	 * This method builds the XML Document containing all content from the Excel, stores it in a JVM Servlet Context attribute, and returns it.
 	 * If the JVM attribute already exists, it just returns the cached Object.
 	 * @param context The LiveSite RequestContext object.
 	 * @return The String array of entries.
@@ -66,7 +67,12 @@ public class XLSXToXMLDocument {
 			}
 		}
 		
-		if (null == content) {
+		String actionParam = req.getParameter(ACTIONPARAMNAME);
+		if ((null == actionParam) || (actionParam.isEmpty())) {
+			actionParam = "";
+		}
+		
+		if ((null == content) || actionParam.equalsIgnoreCase("reload")) {
 			String rootPath = context.getFileDal().getRoot();
 			debugMsg("rootPath: " + rootPath, startTime);
 			
@@ -74,12 +80,12 @@ public class XLSXToXMLDocument {
 			String[] jvmAttrSplit = jvmAttribute.split("\\.");
 			
 			// documentsPath is the workarea-relative path to the Excel file we want, e.g. "rsrc/contrib/image/Files/faq/synonyms.xlsx"
-			String documentsPath = DOCUMENTFILESPATH + SEPARATOR + jvmAttrSplit[0] + SEPARATOR + jvmAttrSplit[1] + ".xlsx";
-			debugMsg("documentsPath: " + documentsPath, startTime);
+			String documentPath = DOCUMENTFILESPATH + SEPARATOR + jvmAttrSplit[0] + SEPARATOR + jvmAttrSplit[1] + ".xlsx";
+			debugMsg("documentsPath: " + documentPath, startTime);
 	
 			try {
 				// parentDirFullPath is the full file system path to the parent directory
-				String filePathToExcel = rootPath + SEPARATOR + documentsPath;  // adding separator for higher environments required
+				String filePathToExcel = rootPath + SEPARATOR + documentPath;  // adding separator for higher environments required
 				debugMsg("filePathToExcel: " + filePathToExcel, startTime);
 				try {
 					content = extractContentsOfExcel(context.getFileDal(), filePathToExcel);
