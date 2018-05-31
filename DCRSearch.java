@@ -287,20 +287,6 @@ public class DCRSearch {
 						}
 						
 					}
-					/*for (String cleanedSearchTerm : splitCleanedSearchTerms) {
-						// Exact match search
-						List<Element> synonymsMatchingLines = synonymsDoc.getRootElement().selectNodes("//cell[starts-with(@name, 'synonyms') and @lang='" + lang + "']/line[text() = '" + cleanedSearchTerm + "']");
-						if (null != synonymsMatchingLines) {
-							debugMsg("Found matching lines: " + synonymsMatchingLines.size(), startTime);
-							for (Element currentLine : synonymsMatchingLines) {
-								Element currentRow = currentLine.getParent().getParent();
-								Element currentPhraseEle = (Element) currentRow.selectSingleNode("cell[starts-with(@name, 'phrase') and @lang = '" + lang + "']");
-								if (null != currentPhraseEle) {
-									search += " " + currentPhraseEle.selectSingleNode("line").getText();
-								}
-							}
-						}
-					}*/
 				}
 				debugMsg("search with synonyms: " + search, startTime);
 			} catch (Exception e) {
