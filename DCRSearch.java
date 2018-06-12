@@ -58,7 +58,7 @@ public class DCRSearch {
 	private static final String SEPARATOR = "/";
 	private static final int MAXRESULTS = 10;
 	private static final int UPDATEMINUTES = 5;
-	private static final String ACTIONPARAMNAME = "sca";
+	private static final String ACTIONPARAMNAME = "renderer";
 	private static final String LANGPARAMNAME = "axes1";
     private static final String CHANNELPARAMNAME = "axes2";
     private static final String BRANDPARAMNAME = "axes3";

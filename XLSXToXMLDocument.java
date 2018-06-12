@@ -26,7 +26,7 @@ public class XLSXToXMLDocument {
 	private static final String	DEFAULTLANG = "en";
 	private static final String LANGPARAMNAME = "axes1";
 	private static final String ATTRPARAMNAME = "xlsxattr";
-	private static final String ACTIONPARAMNAME = "sca";
+	private static final String ACTIONPARAMNAME = "renderer";
 	private static final String SEPARATOR = "/";
 	
 	/**
