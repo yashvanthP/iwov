@@ -20,10 +20,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-//[BNPPF]import org.slf4j.Logger;
-//[BNPPF]import org.slf4j.LoggerFactory;
+//import org.apache.commons.logging.Log; this is only for lab
+//import org.apache.commons.logging.LogFactory; this is only for lab
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
@@ -46,8 +46,8 @@ import com.interwoven.livesite.runtime.RequestContext;
  *
  */
 public class DCRSearch {
-	private static final Log LOGGER = LogFactory.getLog(DCRSearch.class);
-	//[BNPPF]private static final Logger LOGGER = LoggerFactory.getLogger(DCRSearch.class);
+	//private static final Log LOGGER = LogFactory.getLog(DCRSearch.class); // this is only for lab
+	private static final Logger LOGGER = LoggerFactory.getLogger(DCRSearch.class);
 	private static final String	ROOTATTRIBUTENAME = "dcrsdoc";
 	private static final String	DEFAULTATTRIBUTE = ROOTATTRIBUTENAME + ".EBB.faq.faq-QA";
 	private static final List<String> LANGUAGES = Arrays.asList("de", "en", "fr", "nl");
@@ -80,7 +80,7 @@ public class DCRSearch {
 	
 	// Stop words
 	public static final String[] STOP_WORDS_ENGLISH = new String[] {"and", "if", "or", "with", "else", "when", "why", "what", "who", "where", "how", "can", "you", "see", "get"};
-	public static final String[] STOP_WORDS_FRENCH = new String[] {"et", "si", "ou", "avec", "sinon", "quand", "pourquoi", "quoi", "qui", "où", "comment", "peux", "vous", "voir", "avoir"};
+	public static final String[] STOP_WORDS_FRENCH = new String[] {"et", "si", "ou", "avec", "sinon", "quand", "pourquoi", "quoi", "qui", "oÃ¹", "comment", "peux", "vous", "voir", "avoir"};
 	public static final String[] STOP_WORDS_DUTCH = new String[] {"en", "als", "of", "met", "anders", "wanneer", "waarom", "wat", "wie", "waar", "hoe", "kan", "u", "zien", "krijgen"};
 	public static final String[] STOP_WORDS_GERMAN = new String[] {"und", "wenn", "oder", "mit", "sonst", "wann", "warum", "was", "wer", "wo", "wie", "kann", "du", "sehen", "bekommen"};
 	public static final Map<String, String[]> STOP_WORDS = createMap();
