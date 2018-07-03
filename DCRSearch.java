@@ -20,10 +20,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
-//import org.apache.commons.logging.Log; this is only for lab
-//import org.apache.commons.logging.LogFactory; this is only for lab
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log; // this is only for lab
+import org.apache.commons.logging.LogFactory; // this is only for lab
+//[BNPPF]import org.slf4j.Logger;
+//[BNPPF]import org.slf4j.LoggerFactory;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
@@ -42,12 +42,12 @@ import com.interwoven.livesite.runtime.RequestContext;
  * Context attributes.
  * 
  * @author jpope
- * @version 1.3
+ * @version 1.4
  *
  */
 public class DCRSearch {
-	//private static final Log LOGGER = LogFactory.getLog(DCRSearch.class); // this is only for lab
-	private static final Logger LOGGER = LoggerFactory.getLogger(DCRSearch.class);
+	private static final Log LOGGER = LogFactory.getLog(DCRSearch.class);
+	//[BNPPF]private static final Logger LOGGER = LoggerFactory.getLogger(DCRSearch.class);
 	private static final String	ROOTATTRIBUTENAME = "dcrsdoc";
 	private static final String	DEFAULTATTRIBUTE = ROOTATTRIBUTENAME + ".EBB.faq.faq-QA";
 	private static final List<String> LANGUAGES = Arrays.asList("de", "en", "fr", "nl");
@@ -60,9 +60,9 @@ public class DCRSearch {
 	private static final int UPDATEMINUTES = 5;
 	private static final String ACTIONPARAMNAME = "renderer";
 	private static final String LANGPARAMNAME = "axes1";
-    private static final String CHANNELPARAMNAME = "axes2";
-    private static final String BRANDPARAMNAME = "axes3";
-    private static final String AUDIENCEPARAMNAME = "axes4";
+	private static final String CHANNELPARAMNAME = "axes2";
+	private static final String BRANDPARAMNAME = "axes3";
+	private static final String AUDIENCEPARAMNAME = "axes4";
 	private static final String ATTRPARAMNAME = "attr";
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private static final String JSONCONTENTELEMENT = "JSONContent";
@@ -80,19 +80,19 @@ public class DCRSearch {
 	
 	// Stop words
 	public static final String[] STOP_WORDS_ENGLISH = new String[] {"and", "if", "or", "with", "else", "when", "why", "what", "who", "where", "how", "can", "you", "see", "get"};
-	public static final String[] STOP_WORDS_FRENCH = new String[] {"et", "si", "ou", "avec", "sinon", "quand", "pourquoi", "quoi", "qui", "oÃ¹", "comment", "peux", "vous", "voir", "avoir"};
+	public static final String[] STOP_WORDS_FRENCH = new String[] {"et", "si", "ou", "avec", "sinon", "quand", "pourquoi", "quoi", "qui", "où", "comment", "peux", "vous", "voir", "avoir"};
 	public static final String[] STOP_WORDS_DUTCH = new String[] {"en", "als", "of", "met", "anders", "wanneer", "waarom", "wat", "wie", "waar", "hoe", "kan", "u", "zien", "krijgen"};
 	public static final String[] STOP_WORDS_GERMAN = new String[] {"und", "wenn", "oder", "mit", "sonst", "wann", "warum", "was", "wer", "wo", "wie", "kann", "du", "sehen", "bekommen"};
 	public static final Map<String, String[]> STOP_WORDS = createMap();
 
-    public static Map<String, String[]> createMap() {
-        Map<String, String[]> result = new HashMap<String, String[]>();
-        result.put("en", STOP_WORDS_ENGLISH);
-        result.put("fr", STOP_WORDS_FRENCH);
-        result.put("nl", STOP_WORDS_DUTCH);
-        result.put("de", STOP_WORDS_GERMAN);
-        return Collections.unmodifiableMap(result);
-    }
+	public static Map<String, String[]> createMap() {
+		Map<String, String[]> result = new HashMap<String, String[]>();
+		result.put("en", STOP_WORDS_ENGLISH);
+		result.put("fr", STOP_WORDS_FRENCH);
+		result.put("nl", STOP_WORDS_DUTCH);
+		result.put("de", STOP_WORDS_GERMAN);
+		return Collections.unmodifiableMap(result);
+	}
 
 	/**
 	 * This method builds the XML Document containing all relevant DCRs, stores it in a JVM Servlet Content attribute, and returns it.
@@ -258,8 +258,6 @@ public class DCRSearch {
 			search = cleanedSearch.toString().trim();
 			debugMsg("search after cleanup and stop words removal: " + search, startTime);
 
-			//String[] splitCleanedSearchTerms = search.split("\\s+");
-
 			try {
 				// Add synonyms now
 				debugMsg("Looking for synonyms...", startTime);
@@ -347,7 +345,8 @@ public class DCRSearch {
 					}
 
 					// Count the number of hits for the complete search term
-					Pattern patternComplete = Pattern.compile(fullSearchQuery, Pattern.CASE_INSENSITIVE);
+					// This pattern matches words that start with the searched term (e.g. search "count" will also match "counting")
+					Pattern patternComplete = Pattern.compile("\\b" + fullSearchQuery, Pattern.CASE_INSENSITIVE);
 					Matcher matcherCompleteQuestion = patternComplete.matcher(questionNode.getText());
 					while (matcherCompleteQuestion.find()) {
 						hitPoints += HIT_POINTS_COMPLETE_TERM_QUESTION;
@@ -357,12 +356,13 @@ public class DCRSearch {
 						hitPoints += HIT_POINTS_COMPLETE_TERM_ANSWER;
 					}
 					
-					// Count the number of hits for each of the search terms (if there are more than one)
+					// Count the number of hits for each of the search terms
 					String[] splitTerms = search.trim().split("\\s+");
 					if (splitTerms.length > 0) {
 						for (String searchTerm : splitTerms) {
 							if (searchTerm.length() > 2) {
-								Pattern pattern = Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE);
+								// This pattern matches words that start with the searched term (e.g. search "count" will also match "counting")
+								Pattern pattern = Pattern.compile("\\b" + searchTerm, Pattern.CASE_INSENSITIVE);
 								
 								Matcher matcher = pattern.matcher(currentDcrContentsAsStr);
 								while (matcher.find()) {
@@ -494,9 +494,9 @@ public class DCRSearch {
 	}
 	
 
-    public ForwardAction executeAjax(RequestContext context) {
-    	return searchJSON(context);
-    }
+	public ForwardAction executeAjax(RequestContext context) {
+		return searchJSON(context);
+	}
 	
 	/**
 	 * Utility method to determine whether we need to update the DCR Document. Default behaviour is to update after UPDATEMINUTES minutes.
@@ -718,10 +718,10 @@ public class DCRSearch {
 				{"</AnchorLink>", "</a>"},
 				{"</Span>", "</span"}};
 			
-            for (String[] pattern : patterns) {
-                Pattern r = Pattern.compile(pattern[0]);
-                eleAsJSON = r.matcher(eleAsJSON).replaceAll(pattern[1]);
-            }
+			for (String[] pattern : patterns) {
+				Pattern r = Pattern.compile(pattern[0]);
+				eleAsJSON = r.matcher(eleAsJSON).replaceAll(pattern[1]);
+			}
 			
 		} catch (JSONException e) {
 			if (LOGGER.isDebugEnabled()) { LOGGER.debug("Could not convert XML Element to a JSON String: " + e.getMessage() + ". Cause: " + e.getCause()); }
