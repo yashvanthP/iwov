@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Site Version="7.2.0.0" ID="1452768623247">
+  <Directory>web-banking-business</Directory>
+  <StartPage>index</StartPage>
+  <LoginPage></LoginPage>
+  <ErrorPage>error</ErrorPage>
+  <Private>false</Private>
+  <AdminServer>SDAW0898:80</AdminServer>
+  <AnalyticsUrl></AnalyticsUrl>
+  <ApplicationType>java</ApplicationType>
+  <InternalProperties/>
+  <Branch>//SDAW0898/default/main/ssc-irb/pcbb</Branch>
+  <PageType>
+    <Id>html5</Id>
+    <Layout canvas-path="Pcbb-Authenticated-Single-Column.xml">fixed-layout</Layout>
+  </PageType>
+  <Resources>
+    <Resource Type="0" Enabled="true" IsSiteResource="true" MimeType="text/css">
+      <Path>rsc/contrib/graphicaltheme/bnpp-fortis/brand.css</Path>
+    </Resource>
+    <Resource Type="0" Enabled="true" IsSiteResource="true" MimeType="text/css">
+      <Path>rsc/sys/css/player/mediaelementplayer.min.css</Path>
+    </Resource>
+    <Resource Type="0" Enabled="true" IsSiteResource="true" MimeType="text/css">
+      <Path>rsc/contrib/graphicaltheme/bnpp-fortis/Application.css</Path>
+    </Resource>
+    <Resource Type="1" Enabled="true" IsSiteResource="true" MimeType="text/javascript">
+      <Path>rsc/contrib/script/js/common/lib/jquery-1.9.1.min.js</Path>
+    </Resource>
+    <Resource Type="1" Enabled="true" IsSiteResource="true" MimeType="text/javascript">
+      <Path>rsc/contrib/script/js/common/lib/jquery-migrate-1.1.1.js</Path>
+    </Resource>
+    <Resource Type="1" Enabled="true" IsSiteResource="true" MimeType="text/javascript">
+      <Path>rsc/sys/script/js/modernizr/modernizr-min.js</Path>
+    </Resource>
+    <Resource Type="1" Enabled="true" IsSiteResource="true" MimeType="text/javascript">
+      <Path>rsc/sys/script/js/pagebus/pagebus.js</Path>
+    </Resource>
+    <Resource Type="1" Enabled="true" IsSiteResource="true" MimeType="text/javascript">
+      <Path>rsc/sys/script/js/require/require.js</Path>
+    </Resource>
+    <Resource Type="1" Enabled="true" IsSiteResource="true" MimeType="text/javascript">
+      <Path>rsc/contrib/script/js/common/lib/iscroll.js</Path>
+    </Resource>
+    <Resource Type="1" Enabled="true" IsSiteResource="true" MimeType="text/javascript">
+      <Path>rsc/contrib/script/js/common/lib/bootstrap.min.js</Path>
+    </Resource>
+    <Resource Type="1" Enabled="true" IsSiteResource="true" MimeType="text/javascript">
+      <Path>rsc/contrib/script/js/common/wcm-config.js</Path>
+    </Resource>
+    <Resource Type="1" Enabled="true" IsSiteResource="true" MimeType="text/javascript">
+      <Path>rsc/contrib/script/js/common/wcm-config-sf-new.js</Path>
+    </Resource>
+    <Resource Type="1" Enabled="true" IsSiteResource="true" MimeType="text/javascript">
+      <Path>rsc/contrib/script/js/common/lib/placeholder.js</Path>
+    </Resource>
+    <Resource Type="1" Enabled="true" IsSiteResource="true" MimeType="text/javascript">
+      <Path>rsc/contrib/script/js/common/package/custom/browsercheck.js</Path>
+    </Resource>
+    <Resource Type="1" Enabled="true" IsSiteResource="true" MimeType="text/javascript">
+      <Path>rsc/contrib/script/js/common/sf-comp-wcm-config.js</Path>
+    </Resource>
+    <Resource Type="1" Enabled="true" IsSiteResource="true" MimeType="text/javascript">
+      <Path>rsc/sys/script/js/player/mediaelement-and-player.min.js</Path>
+    </Resource>
+    <Resource Type="1" Enabled="true" IsSiteResource="true" MimeType="text/javascript">
+      <Path>rsc/contrib/script/js/common/lib/jquery.bxslider.min.4.1.2.js</Path>
+    </Resource>
+    <Resource Type="1" Enabled="true" IsSiteResource="true" MimeType="text/javascript">
+      <Path>rsc/contrib/script/js/common/package/custom/public-site-functions.js</Path>
+    </Resource>
+    <Resource Type="1" Enabled="true" IsSiteResource="true" MimeType="text/javascript">
+      <Path>rsc/contrib/script/js/common/lib/datepicker.js</Path>
+    </Resource>
+    <Resource Type="1" Enabled="true" IsSiteResource="true" MimeType="text/javascript">
+      <Path>rsc/contrib/script/js/common/package/custom/commonFunctions.js</Path>
+    </Resource>
+    <Resource Type="1" Enabled="true" IsSiteResource="true" MimeType="text/javascript">
+      <Path>rsc/sys/script/js/sitefactory/sitefactory.js</Path>
+    </Resource>
+    <Resource Type="1" Enabled="true" IsSiteResource="true" MimeType="text/javascript">
+      <Path>rsc/contrib/script/js/common/package/custom/e-banner.js</Path>
+    </Resource>
+    <Resource Type="1" Enabled="true" IsSiteResource="true" MimeType="text/javascript">
+      <Path>rsc/contrib/script/js/bnpp-fortis/adobe/c54ae400c05361ab6db918d8d84745f6ffd2b7cd/satelliteLib-f8879f27bc89f9952b75054628d3672319a29e09-staging.js</Path>
+    </Resource>
+    <Resource Type="1" Enabled="true" IsSiteResource="true" MimeType="text/javascript">
+      <Path>rsc/contrib/script/js/bnpp-fortis/package/custom/applicationJsonObj.js</Path>
+    </Resource>
+    <Resource Type="1" Enabled="true" IsSiteResource="true" MimeType="text/javascript">
+      <Path>rsc/contrib/script/js/common/package/custom/bisc.js</Path>
+    </Resource>
+    <Resource Type="1" Enabled="false" IsSiteResource="true" MimeType="text/javascript">
+      <Path>rsc/contrib/script/js/bnpp-fortis/package/custom/straightLoans.js</Path>
+    </Resource>
+    <Resource Type="1" Enabled="false" IsSiteResource="true" MimeType="text/javascript">
+      <Path>rsc/contrib/script/js/common/frontendlibs.js</Path>
+    </Resource>
+    <Resource Type="2" Enabled="true" IsSiteResource="true" MimeType="image/x-icon">
+      <Path>rsc/contrib/graphicaltheme/bnpp-fortis/images/favicon.ico</Path>
+    </Resource>
+  </Resources>
+  <URL>
+    <Server>lab</Server>
+    <Domain>business.be.fortis.bank</Domain>
+  </URL>
+  <Login>
+    <Config/>
+    <Attributes/>
+  </Login>
+  <Controllers>
+    <Pre>
+      <Controller>
+        <Object>lu.bgl.ssc.sitefactory.livesite.core.precontroller.Parser</Object>
+        <Method>metaDataParser</Method>
+      </Controller>
+      <Controller>
+        <Object>com.bnppf.adm.wmc.wcm.core.precontroller.HandleUserAuthenticationPreController</Object>
+        <Method>HandleUserAuthenticationPreControllerAction</Method>
+      </Controller>
+    </Pre>
+    <Post/>
+  </Controllers>
+  <WebTrendsAnalytics>
+    <ProfileId></ProfileId>
+  </WebTrendsAnalytics>
+  <Globalization>
+    <Locale>ia</Locale>
+    <MasterSite Id="1452768623247"/>
+  </Globalization>
+  <Description>&lt;settings&gt;&lt;friendlyUrlCode&gt;webbankingbusiness&lt;/friendlyUrlCode&gt;&lt;distributorId&gt;12FB&lt;/distributorId&gt;&lt;axis1&gt;de fr en nl&lt;/axis1&gt;&lt;axis2&gt;PC&lt;/axis2&gt;&lt;axis3&gt;fb&lt;/axis3&gt;&lt;axis4&gt;rpb cpb&lt;/axis4&gt;&lt;deflanguage&gt;en&lt;/deflanguage&gt;&lt;languageMode&gt;2&lt;/languageMode&gt;&lt;languageNotAvailableDCR&gt;&lt;/languageNotAvailableDCR&gt;&lt;themeavailable&gt;nextgen&lt;/themeavailable&gt;&lt;theme&gt;nextgen&lt;/theme&gt;&lt;incorrectUserType&gt;&lt;/incorrectUserType&gt;&lt;as-language&gt;Y&lt;/as-language&gt;&lt;as-fontsize&gt;Y&lt;/as-fontsize&gt;&lt;as-pdf&gt;Y&lt;/as-pdf&gt;&lt;as-print&gt;Y&lt;/as-print&gt;&lt;as-sendto&gt;Y&lt;/as-sendto&gt;&lt;as-shareon&gt;Y&lt;/as-shareon&gt;&lt;socials&gt;&lt;/socials&gt;&lt;userTypeMode&gt;0&lt;/userTypeMode&gt;&lt;defaultLabelsDCR&gt;&lt;/defaultLabelsDCR&gt;&lt;domainUrl&gt;http://pcbb.labaccess.qabnpparibasfortis.be&lt;/domainUrl&gt;&lt;metatags&gt;&lt;/metatags&gt;&lt;/settings&gt;</Description>
+  <IsOptimostEnabled>false</IsOptimostEnabled>
+  <IsOptimostSecure>false</IsOptimostSecure>
+  <Deployment>
+    <TargetName>LiveSiteRuntime</TargetName>
+  </Deployment>
+</Site>

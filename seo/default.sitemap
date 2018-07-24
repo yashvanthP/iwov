@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<site-map id="iue68i1a" Version="3.1.1.0">
+  <segment id="0" priority="-1" enabled="true" default="true" rule-name="Primary">
+    <node id="ikz90az2" allow-children="true" visible-in-breadcrumbs="true" visible-in-sitemap="true">
+      <label key="">index</label>
+      <description>&lt;settings&gt;&lt;display lang='fr'&gt;&lt;title&gt;index-FR&lt;/title&gt;&lt;titleurl&gt;index-FR&lt;/titleurl&gt;&lt;logo&gt;&lt;/logo&gt;&lt;seourl&gt;&lt;/seourl&gt;&lt;/display&gt;&lt;display lang='nl'&gt;&lt;title&gt;index-NL&lt;/title&gt;&lt;titleurl&gt;index-NL&lt;/titleurl&gt;&lt;logo&gt;&lt;/logo&gt;&lt;seourl&gt;&lt;/seourl&gt;&lt;/display&gt;&lt;nodeId&gt;index871&lt;/nodeId&gt;&lt;userType&gt;0&lt;/userType&gt;&lt;themes&gt;&lt;/themes&gt;&lt;inheritTheme&gt;Y&lt;/inheritTheme&gt;&lt;services&gt;&lt;pdf&gt;I&lt;/pdf&gt;&lt;print&gt;I&lt;/print&gt;&lt;shareOn&gt;I&lt;/shareOn&gt;&lt;/services&gt;&lt;networks&gt;&lt;/networks&gt;&lt;xmlSiteMap&gt;&lt;axes1&gt;&lt;axis&gt;fr&lt;/axis&gt;&lt;axis&gt;nl&lt;/axis&gt;&lt;/axes1&gt;&lt;axes2&gt;&lt;/axes2&gt;&lt;axes3&gt;&lt;axis&gt;kn&lt;/axis&gt;&lt;/axes3&gt;&lt;axes4&gt;&lt;axis&gt;prof&lt;/axis&gt;&lt;axis&gt;priv&lt;/axis&gt;&lt;/axes4&gt;&lt;inherit&gt;false&lt;/inherit&gt;&lt;weight&gt;0.5&lt;/weight&gt;&lt;/xmlSiteMap&gt;&lt;custom&gt;&lt;name&gt;type&lt;/name&gt;&lt;value&gt;&lt;/value&gt;&lt;/custom&gt;&lt;custom&gt;&lt;name&gt;languages&lt;/name&gt;&lt;value&gt;&lt;/value&gt;&lt;/custom&gt;&lt;custom&gt;&lt;name&gt;hideOnSmallResolution&lt;/name&gt;&lt;value&gt;&lt;/value&gt;&lt;/custom&gt;&lt;custom&gt;&lt;name&gt;authenticated&lt;/name&gt;&lt;value&gt;&lt;/value&gt;&lt;/custom&gt;&lt;custom&gt;&lt;name&gt;segments&lt;/name&gt;&lt;value&gt;&lt;/value&gt;&lt;/custom&gt;&lt;custom&gt;&lt;name&gt;navigationElement&lt;/name&gt;&lt;value&gt;&lt;/value&gt;&lt;/custom&gt;&lt;custom&gt;&lt;name&gt;user&lt;/name&gt;&lt;value&gt;&lt;/value&gt;&lt;/custom&gt;&lt;/settings&gt;</description>
+      <link type="page" target="">
+        <value>Individuals/individuals-home</value>
+        <query-string preserve-qs-data="false"/>
+      </link>
+      <aliases/>
+    </node>
+	<node id="ikz90az2" allow-children="true" visible-in-breadcrumbs="true" visible-in-sitemap="true">
+      <label key="">index123</label>
+      <description>&lt;settings&gt;&lt;display lang='fr'&gt;&lt;title&gt;index-FR&lt;/title&gt;&lt;titleurl&gt;index-FR&lt;/titleurl&gt;&lt;logo&gt;&lt;/logo&gt;&lt;seourl&gt;&lt;/seourl&gt;&lt;/display&gt;&lt;display lang='nl'&gt;&lt;title&gt;index-NL&lt;/title&gt;&lt;titleurl&gt;index-NL&lt;/titleurl&gt;&lt;logo&gt;&lt;/logo&gt;&lt;seourl&gt;&lt;/seourl&gt;&lt;/display&gt;&lt;nodeId&gt;index861&lt;/nodeId&gt;&lt;userType&gt;0&lt;/userType&gt;&lt;themes&gt;&lt;/themes&gt;&lt;inheritTheme&gt;Y&lt;/inheritTheme&gt;&lt;services&gt;&lt;pdf&gt;I&lt;/pdf&gt;&lt;print&gt;I&lt;/print&gt;&lt;shareOn&gt;I&lt;/shareOn&gt;&lt;/services&gt;&lt;networks&gt;&lt;/networks&gt;&lt;xmlSiteMap&gt;&lt;axes1&gt;&lt;axis&gt;fr&lt;/axis&gt;&lt;axis&gt;nl&lt;/axis&gt;&lt;/axes1&gt;&lt;axes2&gt;&lt;/axes2&gt;&lt;axes3&gt;&lt;axis&gt;kn&lt;/axis&gt;&lt;/axes3&gt;&lt;axes4&gt;&lt;axis&gt;prof&lt;/axis&gt;&lt;axis&gt;priv&lt;/axis&gt;&lt;/axes4&gt;&lt;inherit&gt;false&lt;/inherit&gt;&lt;weight&gt;0.5&lt;/weight&gt;&lt;/xmlSiteMap&gt;&lt;custom&gt;&lt;name&gt;type&lt;/name&gt;&lt;value&gt;&lt;/value&gt;&lt;/custom&gt;&lt;custom&gt;&lt;name&gt;languages&lt;/name&gt;&lt;value&gt;&lt;/value&gt;&lt;/custom&gt;&lt;custom&gt;&lt;name&gt;hideOnSmallResolution&lt;/name&gt;&lt;value&gt;&lt;/value&gt;&lt;/custom&gt;&lt;custom&gt;&lt;name&gt;authenticated&lt;/name&gt;&lt;value&gt;&lt;/value&gt;&lt;/custom&gt;&lt;custom&gt;&lt;name&gt;segments&lt;/name&gt;&lt;value&gt;&lt;/value&gt;&lt;/custom&gt;&lt;custom&gt;&lt;name&gt;navigationElement&lt;/name&gt;&lt;value&gt;&lt;/value&gt;&lt;/custom&gt;&lt;custom&gt;&lt;name&gt;user&lt;/name&gt;&lt;value&gt;&lt;/value&gt;&lt;/custom&gt;&lt;/settings&gt;</description>
+      <link type="page" target="">
+        <value>Individuals/individuals-home</value>
+        <query-string preserve-qs-data="false"/>
+      </link>
+      <aliases/>
+    </node>
+  </segment>
+</site-map>
