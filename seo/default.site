@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Site Version="7.2.0.0" ID="1452768623247">
+<Site Version="7.2.0.0" ID="1463133752493">
   <Directory>web-banking-business</Directory>
   <StartPage>index</StartPage>
   <LoginPage></LoginPage>
   <ErrorPage>error</ErrorPage>
   <Private>false</Private>
-  <AdminServer>SDAW0898:80</AdminServer>
+  <AdminServer>SPAW2727:80</AdminServer>
   <AnalyticsUrl></AnalyticsUrl>
   <ApplicationType>java</ApplicationType>
   <InternalProperties/>
-  <Branch>//SDAW0898/default/main/ssc-irb/pcbb</Branch>
+  <Branch>//SPAW2727/default/main/ssc-irb/pcbb</Branch>
   <PageType>
     <Id>html5</Id>
     <Layout canvas-path="Pcbb-Authenticated-Single-Column.xml">fixed-layout</Layout>
@@ -83,27 +83,34 @@
       <Path>rsc/contrib/script/js/common/package/custom/e-banner.js</Path>
     </Resource>
     <Resource Type="1" Enabled="true" IsSiteResource="true" MimeType="text/javascript">
-      <Path>rsc/contrib/script/js/bnpp-fortis/adobe/c54ae400c05361ab6db918d8d84745f6ffd2b7cd/satelliteLib-f8879f27bc89f9952b75054628d3672319a29e09-staging.js</Path>
+      <Path>rsc/contrib/script/js/bnpp-fortis/adobe/c54ae400c05361ab6db918d8d84745f6ffd2b7cd/satelliteLib-f8879f27bc89f9952b75054628d3672319a29e09.js</Path>
     </Resource>
     <Resource Type="1" Enabled="true" IsSiteResource="true" MimeType="text/javascript">
-      <Path>rsc/contrib/script/js/bnpp-fortis/package/custom/applicationJsonObj.js</Path>
-    </Resource>
-    <Resource Type="1" Enabled="true" IsSiteResource="true" MimeType="text/javascript">
-      <Path>rsc/contrib/script/js/common/package/custom/bisc.js</Path>
-    </Resource>
-    <Resource Type="1" Enabled="false" IsSiteResource="true" MimeType="text/javascript">
-      <Path>rsc/contrib/script/js/bnpp-fortis/package/custom/straightLoans.js</Path>
-    </Resource>
-    <Resource Type="1" Enabled="false" IsSiteResource="true" MimeType="text/javascript">
-      <Path>rsc/contrib/script/js/common/frontendlibs.js</Path>
+      <Path>rsc/contrib/script/js/bnpp-fortis/package/custom/deployJava.js</Path>
     </Resource>
     <Resource Type="2" Enabled="true" IsSiteResource="true" MimeType="image/x-icon">
       <Path>rsc/contrib/graphicaltheme/bnpp-fortis/images/favicon.ico</Path>
     </Resource>
   </Resources>
   <URL>
-    <Server>lab</Server>
-    <Domain>business.be.fortis.bank</Domain>
+    <Server>easybankingbusiness</Server>
+    <Domain>bnpparibasfortis.be</Domain>
+  </URL>
+  <URL>
+    <Server>easybankingbusiness</Server>
+    <Domain>be</Domain>
+  </URL>
+  <URL>
+    <Server>www</Server>
+    <Domain>easybankingbusiness.be</Domain>
+  </URL>
+  <URL>
+    <Server>m1</Server>
+    <Domain>business.qabnpparibasfortis.be</Domain>
+  </URL>
+  <URL>
+    <Server>193</Server>
+    <Domain>58.4.15</Domain>
   </URL>
   <Login>
     <Config/>
@@ -126,10 +133,10 @@
     <ProfileId></ProfileId>
   </WebTrendsAnalytics>
   <Globalization>
-    <Locale>ia</Locale>
-    <MasterSite Id="1452768623247"/>
+    <Locale/>
+    <MasterSite Id="1459260472909"/>
   </Globalization>
-  <Description>&lt;settings&gt;&lt;friendlyUrlCode&gt;webbankingbusiness&lt;/friendlyUrlCode&gt;&lt;distributorId&gt;12FB&lt;/distributorId&gt;&lt;axis1&gt;de fr en nl&lt;/axis1&gt;&lt;axis2&gt;PC&lt;/axis2&gt;&lt;axis3&gt;fb&lt;/axis3&gt;&lt;axis4&gt;rpb cpb&lt;/axis4&gt;&lt;deflanguage&gt;en&lt;/deflanguage&gt;&lt;languageMode&gt;2&lt;/languageMode&gt;&lt;languageNotAvailableDCR&gt;&lt;/languageNotAvailableDCR&gt;&lt;themeavailable&gt;nextgen&lt;/themeavailable&gt;&lt;theme&gt;nextgen&lt;/theme&gt;&lt;incorrectUserType&gt;&lt;/incorrectUserType&gt;&lt;as-language&gt;Y&lt;/as-language&gt;&lt;as-fontsize&gt;Y&lt;/as-fontsize&gt;&lt;as-pdf&gt;Y&lt;/as-pdf&gt;&lt;as-print&gt;Y&lt;/as-print&gt;&lt;as-sendto&gt;Y&lt;/as-sendto&gt;&lt;as-shareon&gt;Y&lt;/as-shareon&gt;&lt;socials&gt;&lt;/socials&gt;&lt;userTypeMode&gt;0&lt;/userTypeMode&gt;&lt;defaultLabelsDCR&gt;&lt;/defaultLabelsDCR&gt;&lt;domainUrl&gt;http://pcbb.labaccess.qabnpparibasfortis.be&lt;/domainUrl&gt;&lt;metatags&gt;&lt;/metatags&gt;&lt;/settings&gt;</Description>
+  <Description>&lt;settings&gt;&lt;friendlyUrlCode&gt;webbankingbusiness&lt;/friendlyUrlCode&gt;&lt;distributorId&gt;12FB&lt;/distributorId&gt;&lt;axis1&gt;de fr en nl&lt;/axis1&gt;&lt;axis2&gt;PC&lt;/axis2&gt;&lt;axis3&gt;fb&lt;/axis3&gt;&lt;axis4&gt;rpb cpb&lt;/axis4&gt;&lt;deflanguage&gt;en&lt;/deflanguage&gt;&lt;languageMode&gt;2&lt;/languageMode&gt;&lt;languageNotAvailableDCR&gt;&lt;/languageNotAvailableDCR&gt;&lt;themeavailable&gt;nextgen&lt;/themeavailable&gt;&lt;theme&gt;nextgen&lt;/theme&gt;&lt;incorrectUserType&gt;&lt;/incorrectUserType&gt;&lt;as-language&gt;Y&lt;/as-language&gt;&lt;as-fontsize&gt;Y&lt;/as-fontsize&gt;&lt;as-pdf&gt;Y&lt;/as-pdf&gt;&lt;as-print&gt;Y&lt;/as-print&gt;&lt;as-sendto&gt;Y&lt;/as-sendto&gt;&lt;as-shareon&gt;Y&lt;/as-shareon&gt;&lt;socials&gt;&lt;/socials&gt;&lt;userTypeMode&gt;0&lt;/userTypeMode&gt;&lt;defaultLabelsDCR&gt;&lt;/defaultLabelsDCR&gt;&lt;domainUrl&gt;http://business.bnpparibasfortis.be&lt;/domainUrl&gt;&lt;metatags&gt;&lt;/metatags&gt;&lt;/settings&gt;</Description>
   <IsOptimostEnabled>false</IsOptimostEnabled>
   <IsOptimostSecure>false</IsOptimostSecure>
   <Deployment>
