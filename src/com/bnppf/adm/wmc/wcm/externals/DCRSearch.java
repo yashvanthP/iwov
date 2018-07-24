@@ -346,7 +346,7 @@ public class DCRSearch {
 
 					// Count the number of hits for the complete search term
 					// This pattern matches words that start with the searched term (e.g. search "count" will also match "counting")
-					Pattern patternComplete = Pattern.compile("\\b(" + fullSearchQuery + ")|(" + fullSearchQuery + ")\\b|\\b(" + fullSearchQuery + ")\\b", Pattern.CASE_INSENSITIVE);
+					Pattern patternComplete = Pattern.compile("\\b" + fullSearchQuery, Pattern.CASE_INSENSITIVE);
 					Matcher matcherCompleteQuestion = patternComplete.matcher(questionNode.getText());
 					while (matcherCompleteQuestion.find()) {
 						hitPoints += HIT_POINTS_COMPLETE_TERM_QUESTION;
@@ -362,7 +362,7 @@ public class DCRSearch {
 						for (String searchTerm : splitTerms) {
 							if (searchTerm.length() > 2) {
 								// This pattern matches words that start with the searched term (e.g. search "count" will also match "counting")
-								Pattern pattern = Pattern.compile("\\b(" + searchTerm + ")|(" + searchTerm + ")\\b|\\b(" + searchTerm + ")\\b", Pattern.CASE_INSENSITIVE);
+								Pattern pattern = Pattern.compile("\\b" + searchTerm, Pattern.CASE_INSENSITIVE);
 								
 								Matcher matcher = pattern.matcher(currentDcrContentsAsStr);
 								while (matcher.find()) {
