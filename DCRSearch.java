@@ -46,7 +46,7 @@ import com.interwoven.livesite.runtime.RequestContext;
  *
  */
 public class DCRSearch {
-	private static final Log LOGGER = LogFactory.getLog(DCRSearch.class); // this is only for lab
+	private static final Log LOGGER = LogFactory.getLog(DCRSearch.class);
 	//[BNPPF]private static final Logger LOGGER = LoggerFactory.getLogger(DCRSearch.class);
 	private static final String	ROOTATTRIBUTENAME = "dcrsdoc";
 	private static final String	DEFAULTATTRIBUTE = ROOTATTRIBUTENAME + ".EBB.faq.faq-QA";
@@ -57,7 +57,7 @@ public class DCRSearch {
 	private static final String DEFAULTAUDIENCE = "rpb";
 	private static final String SEPARATOR = "/";
 	private static final int MAXRESULTS = 10;
-	private static final int UPDATEMINUTES = 360;
+	private static final int UPDATEMINUTES = 5;
 	private static final String ACTIONPARAMNAME = "renderer";
 	private static final String LANGPARAMNAME = "axes1";
 	private static final String CHANNELPARAMNAME = "axes2";
