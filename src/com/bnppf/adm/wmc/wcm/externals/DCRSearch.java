@@ -716,7 +716,7 @@ public class DCRSearch {
 				{"xml:id", "id"},
 				{"<AnchorLink reference", "<a href"},
 				{"</AnchorLink>", "</a>"},
-				{"</Span>", "</span"}};
+				{"</Span>", "</span>"}};
 			
 			for (String[] pattern : patterns) {
 				Pattern r = Pattern.compile(pattern[0]);
