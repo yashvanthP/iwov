@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jardesc>
+    <jar path="/usr/Interwoven/LiveSiteDisplayServices/runtime/web/WEB-INF/lib/livesite_customer.jar"/>
+    <options buildIfNeeded="true" compress="false" descriptionLocation="/lsds/Jar2.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="true" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+        <javaElement handleIdentifier="=lsds/src&lt;com.bnppf.adm.wmc.wcm.externals{DCRSearch.java"/>
+        <javaElement handleIdentifier="=lsds/src&lt;com.bnppf.adm.wmc.wcm.externals{XLSXToXMLDocument.java"/>
+    </selectedElements>
+</jardesc>
