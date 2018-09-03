@@ -45,13 +45,20 @@ import com.interwoven.cssdk.filesys.CSSimpleFile;
 import com.interwoven.cssdk.filesys.CSVPath;
 import com.interwoven.cssdk.filesys.CSWorkarea;
 
+/**
+ * XLSXToDCRs reads an Excel file and uses it to generate DCRs.
+ * 
+ * @author jpope
+ * @version 2018-09-03 14:55
+ *
+ */
 public class XLSXToDCRs {
 	private static final String[] LANGUAGES_SHORT = new String[] {"nl", "fr", "en", "de"};
 	private static final String[] LANGUAGES = new String[] {"dutch", "french", "english", "german"};
 	private static final String DIR_NAME_HEADING = "modul";
 	private static final String DIR_NAME_HEADING_SUB = "submodul";
 	private static final String LINK_ARGB_INTERNAL = "FF00B0F0";
-	private static final String LINK_ARGB_EXTERNAL = "FF7030A0";
+	private static final String LINK_ARGB_EXTERNAL = "FFFF0000";
 	private static final String LINK_ARGB_ANCHOR_GENERIC = "FFF79646";
 	private static final String LINK_ARGB_ANCHOR_SPECIFIC = "FF00B050";
 
@@ -199,7 +206,7 @@ public class XLSXToDCRs {
 				            
 				            // Generate DCRs if row has content
 				            if (!currentRowContent.isEmpty()) {
-			            		String currentRowModule = currentRowContent.get(DIR_NAME_HEADING + "_english").trim().toLowerCase().replaceAll(" ", "_");
+				            	String currentRowModule = currentRowContent.get(DIR_NAME_HEADING + "_english").trim().toLowerCase().replaceAll(" ", "_");
 			            		String currentRowSubModule = currentRowContent.get(DIR_NAME_HEADING_SUB + "_english").trim().toLowerCase().replaceAll(" ", "_");
 			            		
 			            		// Add localised module
@@ -229,27 +236,27 @@ public class XLSXToDCRs {
 			            		String currentDCRDir = currentRowModule;
 			            		String currentDCRName = currentRowSubModule + "-" + String.format("%03d", currentPriorityNum) + ".xml";
 
-				        		// Add content for Topics
+			            		// Add content for Topics
 			            		HashMap<String, Integer> currentTopic = topicContents.get(currentRowModule);
-				        		if (null == currentTopic) {
-				        			topicContents.put(currentRowModule, new HashMap<String, Integer>());
-				        			currentTopic = topicContents.get(currentRowModule);
-				        			System.out.println("Added topic: " + currentRowModule);
-				        		}
-				        		Integer currentSubModuleDCRCount = currentTopic.get(currentRowSubModule);
-				        		if (null == currentSubModuleDCRCount) {
-				        			currentTopic.put(currentRowSubModule, new Integer(currentPriorityNum));
-				        			currentSubModuleDCRCount = currentTopic.get(currentRowSubModule);
-				        		} else if (currentSubModuleDCRCount.intValue() < currentPriorityNum) {
-				        			currentTopic.put(currentRowSubModule, new Integer(currentPriorityNum));
-				        		}
-				        		if ((null != currentRowContent.get("generic")) && currentRowContent.get("generic").equalsIgnoreCase("yes")) {
-					        		if (null != currentRowContent.get("priority_generic")) {
-						        		Integer currentPriorityGeneric = new Integer(new Float(currentRowContent.get("priority_generic")).intValue());
-						        		topicGenericContents.put(currentPriorityGeneric, currentRowModule + "/" + currentDCRName);
-					        			System.out.println("Added generic topic: (" + currentPriorityGeneric.intValue() + ") " + currentRowModule + "/" + currentDCRName);
+					        		if (null == currentTopic) {
+					        			topicContents.put(currentRowModule, new HashMap<String, Integer>());
+					        			currentTopic = topicContents.get(currentRowModule);
+					        			System.out.println("Added topic: " + currentRowModule);
 					        		}
-				        		}
+					        		Integer currentSubModuleDCRCount = currentTopic.get(currentRowSubModule);
+					        		if (null == currentSubModuleDCRCount) {
+					        			currentTopic.put(currentRowSubModule, new Integer(currentPriorityNum));
+					        			currentSubModuleDCRCount = currentTopic.get(currentRowSubModule);
+					        		} else if (currentSubModuleDCRCount.intValue() < currentPriorityNum) {
+					        			currentTopic.put(currentRowSubModule, new Integer(currentPriorityNum));
+					        		}
+					        		if ((null != currentRowContent.get("generic")) && currentRowContent.get("generic").equalsIgnoreCase("yes")) {
+						        		if (null != currentRowContent.get("priority_generic")) {
+							        		Integer currentPriorityGeneric = new Integer(new Float(currentRowContent.get("priority_generic")).intValue());
+							        		topicGenericContents.put(currentPriorityGeneric, currentRowModule + "/" + currentDCRName);
+						        			System.out.println("Added generic topic: (" + currentPriorityGeneric.intValue() + ") " + currentRowModule + "/" + currentDCRName);
+						        		}
+					        		}
 			            		
 				            	for (int l = 0; l < LANGUAGES.length; l++) {
 				            		String currentDCRPathLocal = currentDCRDir + "/" + LANGUAGES_SHORT[l] + "/" + currentDCRName;
@@ -570,7 +577,7 @@ public class XLSXToDCRs {
 					if (currentARGBHexColour.equalsIgnoreCase(LINK_ARGB_INTERNAL)) {
 						sb.append("<InternalLink reference=\"LINKTODO\" target=\"current\">"); inInternalLink = true;
 					} else if (currentARGBHexColour.equalsIgnoreCase(LINK_ARGB_EXTERNAL)) {
-						sb.append("<ExternalLink reference=\"EXTERNALLINKTODO\" target=\"current\">"); inExternalLink = true;
+						sb.append("<ExternalLink reference=\"EXTERNALLINKTODO\" target=\"new\">"); inExternalLink = true;
 					} else if (currentARGBHexColour.equalsIgnoreCase(LINK_ARGB_ANCHOR_GENERIC)) {
 						sb.append("<Span xml:id=\"genericformsentrypoint\"><AnchorLink reference=\"javascript:void(0)\">"); inAnchorLink = true;
 					} else if (currentARGBHexColour.equalsIgnoreCase(LINK_ARGB_ANCHOR_SPECIFIC)) {
