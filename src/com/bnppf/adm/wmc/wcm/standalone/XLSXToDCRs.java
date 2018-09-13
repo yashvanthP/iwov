@@ -17,7 +17,6 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
-import java.util.TreeMap;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.WordUtils;
@@ -114,8 +113,6 @@ public class XLSXToDCRs {
 				// topicContents has modul as key, then HashMap <String, Integer> with sub-modul
 				// as key and num of QA DCRs as value
 				HashMap<String, HashMap<String, Integer>> topicContents = new HashMap<String, HashMap<String, Integer>>();
-				// topicGenericContents has priority num as key, then String DCR path as value
-				TreeMap<Integer, String> topicGenericContents = new TreeMap<Integer, String>();
 				// localisedModules has modul/sub-modul as key, then HashMap <String, String>
 				// with short lang as key and localised modul as value
 				HashMap<String, HashMap<String, String>> localisedModules = new HashMap<String, HashMap<String, String>>();
@@ -261,7 +258,7 @@ public class XLSXToDCRs {
 								if ((null != currentRowContent.get("generic")) && currentRowContent.get("generic").equalsIgnoreCase("yes")) {
 									if (null != currentRowContent.get("priority_generic")) {
 										Integer currentPriorityGeneric = new Integer(new Float(currentRowContent.get("priority_generic")).intValue());
-										topicGenericContents.put(currentPriorityGeneric, currentRowModule + "/" + currentDCRName);
+										currentTopic.put("generic", new Integer(currentPriorityGeneric));
 										System.out.println("Added generic topic: (" + currentPriorityGeneric.intValue() + ") " + currentRowModule + "/" + currentDCRName);
 									}
 								}
@@ -273,21 +270,30 @@ public class XLSXToDCRs {
 
 									// Handle links
 									String answerContent = currentRowContent.get("answer_" + LANGUAGES[l]);
+									if (null == answerContent) {
+										answerContent = "";
+									}
 									if (!currentRowLinks.isEmpty()) {
 										for (String currentRowLink : currentRowLinks) {
-											answerContent = answerContent.replaceFirst("LINKTODO", currentRowLink);
+											if (!answerContent.isEmpty()) {
+												answerContent = answerContent.replaceFirst("LINKTODO", currentRowLink);
+											}
 										}
 									}
 									if (!currentRowExternalLinks.isEmpty()) {
 										for (String currentRowExternalLink : currentRowExternalLinks) {
-											answerContent = answerContent.replaceFirst("EXTERNALLINKTODO", currentRowExternalLink);
+											if (!answerContent.isEmpty()) {
+												answerContent = answerContent.replaceFirst("EXTERNALLINKTODO", currentRowExternalLink);
+											}
 										}
 									}
 
 									// Handle Form IDs
 									if (!currentRowFormIDs.isEmpty()) {
 										for (String currentRowFormID : currentRowFormIDs) {
-											answerContent = answerContent.replaceFirst("FORMIDTODO", currentRowFormID);
+											if (!answerContent.isEmpty()) {
+												answerContent = answerContent.replaceFirst("FORMIDTODO", currentRowFormID);
+											}
 										}
 									}
 
@@ -402,58 +408,10 @@ public class XLSXToDCRs {
 				// Generate Topics DCRs
 				if ((null != topicContents) && (null != rootDirTopic)) {
 					int topicsCounter = 0;
-					System.out.println("\n*** Generating FAQ Topics ***");
 
-					// First Generate the Generic Topic DCRs
-					if ((null != topicGenericContents) && !topicGenericContents.isEmpty()) {
-						Document doc = generateTopicDocument(vpathTopic, "Generic", 0, "generic", "generic");
-						Element topicElement = (Element) doc.selectSingleNode("//topic");
-						for (Map.Entry<Integer, String> topicGenericContent : topicGenericContents.entrySet()) {
-							String currentTopicpath = topicGenericContent.getValue();
-							String subVpathTopic = vpathQA.substring(vpathQA.indexOf("/templatedata/")) + currentTopicpath;
-							Element QAElement = topicElement.addElement("QA");
-							QAElement.setText(subVpathTopic);
-						}
-
-						for (int l = 0; l < LANGUAGES.length; l++) {
-							String currentDCRPathLocal = "generic/" + LANGUAGES_SHORT[l] + "/generic.xml";
-							String currentDCRPath = vpathTopic + currentDCRPathLocal;
-							System.out.print("- Topic DCR: " + currentDCRPathLocal);
-
-							if (writeXML(currentDCRPath, doc, client, LANGUAGES_SHORT[l], "faq/faq-topic")) {
-								System.out.println(" - OK");
-								topicsCounter++;
-							}
-
-							// Interlingua
-							if (LANGUAGES_SHORT[l].equalsIgnoreCase("en")) {
-								currentDCRPathLocal = "generic/generic.xml";
-								currentDCRPath = vpathTopic + currentDCRPathLocal;
-								System.out.print("- Topic DCR: " + currentDCRPathLocal);
-								// debugMsg("Document: " + doc.asXML(), startTime);
-								if (writeXML(currentDCRPath, doc, client, "ia", "faq/faq-topic")) {
-									System.out.println(" - OK");
-									topicsCounter++;
-								}
-							}
-						}
-					}
-					
-					// Then generate the generic Topic DCRs inside each topic (e.g. topicname/generic.xml)
-					if ((null != topicGenericContents) && !topicGenericContents.isEmpty()) {
-						for (Map.Entry<Integer, String> topicGenericContent : topicGenericContents.entrySet()) {
-							String currentTopicpath = topicGenericContent.getValue();
-							String currentTopic = currentTopicpath.substring(0, currentTopicpath.indexOf("/"));
-							
-							// Check whether we already have a generic DCR for this topic
-							// TODO
-						}
-					}
-
-					// Then generate all the other Topic DCRs
 					for (Map.Entry<String, HashMap<String, Integer>> topicContent : topicContents.entrySet()) {
 						String topicName = topicContent.getKey();
-						String topicNameCamelCase = WordUtils.capitalizeFully(topicName.replaceAll("_", " "));
+						//String topicNameCamelCase = WordUtils.capitalizeFully(topicName.replaceAll("_", " "));
 						HashMap<String, Integer> topicSubContents = topicContent.getValue();
 						for (Map.Entry<String, Integer> topicSubContent : topicSubContents.entrySet()) {
 							String subTopicName = topicSubContent.getKey();
