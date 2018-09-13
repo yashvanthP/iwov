@@ -710,8 +710,10 @@ public class DCRSearch {
 				{"<OrderedList>", "<ol>"},
 				{"</OrderedList>", "</ol>"},
 				{"<InternalLink reference", "<a href"},
+				{"<ExternalLink reference", "<a href"},
 				{" target=\\\\\\\"[^\"]+\\\\\\\"", ""},
 				{"</InternalLink>", "</a>"},
+				{"</ExternalLink>", "</a>"},
 				{"<Span", "<span"},
 				{"xml:id", "id"},
 				{"<AnchorLink reference", "<a href"},
@@ -720,7 +722,8 @@ public class DCRSearch {
 			
 			for (String[] pattern : patterns) {
 				Pattern r = Pattern.compile(pattern[0]);
-				eleAsJSON = r.matcher(eleAsJSON).replaceAll(pattern[1]);
+				Matcher matcher = r.matcher(eleAsJSON);
+				eleAsJSON = matcher.replaceAll(pattern[1]);
 			}
 			
 		} catch (JSONException e) {
