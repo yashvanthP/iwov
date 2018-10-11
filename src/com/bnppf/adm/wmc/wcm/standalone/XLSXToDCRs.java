@@ -211,8 +211,8 @@ public class XLSXToDCRs {
 
 							// Generate DCRs if row has content
 							if (!currentRowContent.isEmpty()) {
-								String currentRowModule = currentRowContent.get(DIR_NAME_HEADING + "_english").trim().toLowerCase().replaceAll(" ", "_");
-								String currentRowSubModule = currentRowContent.get(DIR_NAME_HEADING_SUB + "_english").trim().toLowerCase().replaceAll(" ", "_");
+								String currentRowModule = currentRowContent.get(DIR_NAME_HEADING + "_english").trim().toLowerCase().replaceAll(" ", "_").replaceAll("\\?", "");
+								String currentRowSubModule = currentRowContent.get(DIR_NAME_HEADING_SUB + "_english").trim().toLowerCase().replaceAll(" ", "_").replaceAll("\\?", "");
 
 								// Add localised module
 								String moduleKey = currentRowModule + "/" + currentRowSubModule;
@@ -221,8 +221,8 @@ public class XLSXToDCRs {
 									localisedModule = new HashMap<String, String>();
 									boolean foundAtLeastOne = false;
 									for (int l = 0; l < LANGUAGES.length; l++) {
-										String currentLocalisedModuleValue = currentRowContent.get((DIR_NAME_HEADING + "_" + LANGUAGES[l]).trim().toLowerCase().replaceAll(" ", "_"));
-										String currentLocalisedSubModuleValue = currentRowContent.get((DIR_NAME_HEADING_SUB + "_" + LANGUAGES[l]).trim().toLowerCase().replaceAll(" ", "_"));
+										String currentLocalisedModuleValue = currentRowContent.get((DIR_NAME_HEADING + "_" + LANGUAGES[l]).trim().toLowerCase().replaceAll(" ", "_")).replaceAll("\\?", "");
+										String currentLocalisedSubModuleValue = currentRowContent.get((DIR_NAME_HEADING_SUB + "_" + LANGUAGES[l]).trim().toLowerCase().replaceAll(" ", "_")).replaceAll("\\?", "");
 										if ((null != currentLocalisedModuleValue) && (null != currentLocalisedSubModuleValue)) {
 											if (!currentLocalisedModuleValue.isEmpty() && !currentLocalisedSubModuleValue.isEmpty()) {
 												localisedModule.put(LANGUAGES_SHORT[l], currentLocalisedSubModuleValue);
@@ -283,7 +283,7 @@ public class XLSXToDCRs {
 									if (!currentRowExternalLinks.isEmpty()) {
 										for (String currentRowExternalLink : currentRowExternalLinks) {
 											if (!answerContent.isEmpty()) {
-												answerContent = answerContent.replaceFirst("EXTERNALLINKTODO", currentRowExternalLink);
+												answerContent = answerContent.replaceFirst("EXTERNALTODO", currentRowExternalLink);
 											}
 										}
 									}
@@ -559,7 +559,7 @@ public class XLSXToDCRs {
 						sb.append("<InternalLink reference=\"LINKTODO\" target=\"current\">");
 						inInternalLink = true;
 					} else if (currentARGBHexColour.equalsIgnoreCase(LINK_ARGB_EXTERNAL)) {
-						sb.append("<ExternalLink reference=\"EXTERNALLINKTODO\" target=\"new\">");
+						sb.append("<ExternalLink reference=\"EXTERNALTODO\" target=\"new\">");
 						inExternalLink = true;
 					} else if (currentARGBHexColour.equalsIgnoreCase(LINK_ARGB_ANCHOR_GENERIC)) {
 						sb.append("<Span xml:id=\"genericformsentrypoint\"><AnchorLink reference=\"javascript:void(0)\">");
