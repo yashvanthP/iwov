@@ -48,7 +48,7 @@ import com.interwoven.cssdk.filesys.CSWorkarea;
  * XLSXToDCRs reads an Excel file and uses it to generate DCRs.
  * 
  * @author jpope
- * @version 2018-09-03 14:55
+ * @version 2018-10-23 14:21
  *
  */
 public class XLSXToDCRs {
@@ -61,7 +61,7 @@ public class XLSXToDCRs {
 	private static final String LINK_ARGB_ANCHOR_GENERIC = "FFF79646";
 	private static final String LINK_ARGB_ANCHOR_SPECIFIC = "FF00B050";
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({"deprecation", "TryFinallyCanBeTryWithResources"})
 	public static void main(String[] args) {
 		long startTime = System.currentTimeMillis();
 		debugMsg("Starting the main method", startTime);
@@ -75,7 +75,7 @@ public class XLSXToDCRs {
 			String vpathQA = args[2];
 			String vpathTopic = args[3];
 			String cssdk = args[4];
-			String password = "";
+			String password;
 			if (!vpathQA.endsWith("/")) {
 				vpathQA = vpathQA + "/";
 			}
@@ -112,10 +112,10 @@ public class XLSXToDCRs {
 			if (null != client) {
 				// topicContents has modul as key, then HashMap <String, Integer> with sub-modul
 				// as key and num of QA DCRs as value
-				HashMap<String, HashMap<String, Integer>> topicContents = new HashMap<String, HashMap<String, Integer>>();
+				HashMap<String, HashMap<String, Integer>> topicContents = new HashMap<>();
 				// localisedModules has modul/sub-modul as key, then HashMap <String, String>
 				// with short lang as key and localised modul as value
-				HashMap<String, HashMap<String, String>> localisedModules = new HashMap<String, HashMap<String, String>>();
+				HashMap<String, HashMap<String, String>> localisedModules = new HashMap<>();
 
 				CSDir rootDirQA = null;
 				try {
@@ -148,10 +148,10 @@ public class XLSXToDCRs {
 						while (rowIterator.hasNext()) {
 							XSSFRow row = (XSSFRow) rowIterator.next();
 
-							HashMap<String, String> currentRowContent = new HashMap<String, String>();
-							ArrayList<String> currentRowLinks = new ArrayList<String>();
-							ArrayList<String> currentRowExternalLinks = new ArrayList<String>();
-							ArrayList<String> currentRowFormIDs = new ArrayList<String>();
+							HashMap<String, String> currentRowContent = new HashMap<>();
+							ArrayList<String> currentRowLinks = new ArrayList<>();
+							ArrayList<String> currentRowExternalLinks = new ArrayList<>();
+							ArrayList<String> currentRowFormIDs = new ArrayList<>();
 
 							// Extract cell contents for the current row
 							Iterator<Cell> cellIterator = row.cellIterator();
@@ -199,7 +199,7 @@ public class XLSXToDCRs {
 													currentRowExternalLinks.add(link.trim());
 												}
 											}
-										} else if (headings[cell.getColumnIndex()].indexOf("answer") != -1) {
+										} else if (headings[cell.getColumnIndex()].contains("answer")) {
 											// Special case to extract complex data from the cell
 											cellValue = convertRTSCellToXML(cell.getRichStringCellValue());
 											cellValue = "<Region><Section>" + cellValue + "</Section></Region>";
@@ -218,7 +218,7 @@ public class XLSXToDCRs {
 								String moduleKey = currentRowModule + "/" + currentRowSubModule;
 								HashMap<String, String> localisedModule = localisedModules.get(moduleKey);
 								if (null == localisedModule) {
-									localisedModule = new HashMap<String, String>();
+									localisedModule = new HashMap<>();
 									boolean foundAtLeastOne = false;
 									for (int l = 0; l < LANGUAGES.length; l++) {
 										String currentLocalisedModuleValue = currentRowContent.get((DIR_NAME_HEADING + "_" + LANGUAGES[l]).trim().toLowerCase().replaceAll(" ", "_")).replaceAll("\\?", "");
@@ -238,33 +238,31 @@ public class XLSXToDCRs {
 								debugMsg("Row: " + (row.getRowNum() + 1) + ". Module: " + moduleKey, startTime);
 								String currentPriority = currentRowContent.get("priority_top_faq");
 								int currentPriorityNum = new Float(currentPriority).intValue();
-								String currentDCRDir = currentRowModule;
 								String currentDCRName = currentRowSubModule + "-" + String.format("%03d", currentPriorityNum) + ".xml";
 
 								// Add content for Topics
 								HashMap<String, Integer> currentTopic = topicContents.get(currentRowModule);
 								if (null == currentTopic) {
-									topicContents.put(currentRowModule, new HashMap<String, Integer>());
+									topicContents.put(currentRowModule, new HashMap<>());
 									currentTopic = topicContents.get(currentRowModule);
 									System.out.println("Added topic: " + currentRowModule);
 								}
 								Integer currentSubModuleDCRCount = currentTopic.get(currentRowSubModule);
 								if (null == currentSubModuleDCRCount) {
-									currentTopic.put(currentRowSubModule, new Integer(currentPriorityNum));
-									currentSubModuleDCRCount = currentTopic.get(currentRowSubModule);
-								} else if (currentSubModuleDCRCount.intValue() < currentPriorityNum) {
-									currentTopic.put(currentRowSubModule, new Integer(currentPriorityNum));
+									currentTopic.put(currentRowSubModule, currentPriorityNum);
+								} else if (currentSubModuleDCRCount < currentPriorityNum) {
+									currentTopic.put(currentRowSubModule, currentPriorityNum);
 								}
 								if ((null != currentRowContent.get("generic")) && currentRowContent.get("generic").equalsIgnoreCase("yes")) {
 									if (null != currentRowContent.get("priority_generic")) {
-										Integer currentPriorityGeneric = new Integer(new Float(currentRowContent.get("priority_generic")).intValue());
-										currentTopic.put("generic", new Integer(currentPriorityGeneric));
-										System.out.println("Added generic topic: (" + currentPriorityGeneric.intValue() + ") " + currentRowModule + "/" + currentDCRName);
+										Integer currentPriorityGeneric = new Float(currentRowContent.get("priority_generic")).intValue();
+										currentTopic.put("generic", currentPriorityGeneric);
+										System.out.println("Added generic topic: (" + currentPriorityGeneric + ") " + currentRowModule + "/" + currentDCRName);
 									}
 								}
 
 								for (int l = 0; l < LANGUAGES.length; l++) {
-									String currentDCRPathLocal = currentDCRDir + "/" + LANGUAGES_SHORT[l] + "/" + currentDCRName;
+									String currentDCRPathLocal = currentRowModule + "/" + LANGUAGES_SHORT[l] + "/" + currentDCRName;
 									String currentDCRPath = vpathQA + currentDCRPathLocal;
 									System.out.print("- QA DCR: " + currentDCRPathLocal);
 
@@ -314,16 +312,16 @@ public class XLSXToDCRs {
 										reader.setValidation(false);
 										Document xmlDocToValidate = reader.read(new StringReader(XMLToValidate));
 										if (null == xmlDocToValidate) {
-											sbErrors.append(debugOutput + " - ERROR (invalid XML)\n");
+											sbErrors.append(debugOutput).append(" - ERROR (invalid XML)\n");
 											System.out.println(" - ERROR (Invalid XML)");
 											break;
 										}
 										if (XMLToValidate.contains("TODO")) {
 											System.out.println(" --- ERROR: Found empty link(s).");
-											sbErrors.append(debugOutput + " - ERROR (found empty link(s))\n");
+											sbErrors.append(debugOutput).append(" - ERROR (found empty link(s))\n");
 										}
 									} catch (Exception e) {
-										sbErrors.append(debugOutput + " - ERROR: ");
+										sbErrors.append(debugOutput).append(" - ERROR: ");
 										if (e.getMessage().contains("Link")) {
 											sbErrors.append("problem with a link. Maybe a space at the end or start of a line?");
 										} else if (e.getMessage().contains("Paragraph")) {
@@ -336,7 +334,7 @@ public class XLSXToDCRs {
 											sbErrors.append(e.getMessage());
 										}
 										sbErrors.append("\n");
-										sbErrors.append("DEBUG: " + XMLToValidate + "\n\n");
+										sbErrors.append("DEBUG: ").append(XMLToValidate).append("\n\n");
 										System.out.println(" - ERROR (" + e.getMessage() + ")");
 										System.out.println(XMLToValidate);
 										break;
@@ -349,7 +347,7 @@ public class XLSXToDCRs {
 
 									// Interlingua
 									if (LANGUAGES_SHORT[l].equalsIgnoreCase("en")) {
-										currentDCRPathLocal = currentDCRDir + "/" + currentDCRName;
+										currentDCRPathLocal = currentRowModule + "/" + currentDCRName;
 										currentDCRPath = vpathQA + currentDCRPathLocal;
 										System.out.print("- QA DCR: " + currentDCRPathLocal);
 										// debugMsg("Document: " + doc.asXML(), startTime);
@@ -493,7 +491,7 @@ public class XLSXToDCRs {
 		return doc;
 	}
 
-	public static String convertRTSCellToXML(XSSFRichTextString rtsCellValue) {
+	private static String convertRTSCellToXML(XSSFRichTextString rtsCellValue) {
 		StringBuilder sb = new StringBuilder();
 		String rtsAsString = rtsCellValue.toString();
 		String previousChar = "";
@@ -776,7 +774,7 @@ public class XLSXToDCRs {
 	 * @param startTime
 	 *          long System.nanoTime()
 	 */
-	public static void debugMsg(String theStr, long startTime) {
+	private static void debugMsg(String theStr, long startTime) {
 		System.out.println("[" + (System.currentTimeMillis() - startTime) + " ms] " + theStr);
 	}
 }
