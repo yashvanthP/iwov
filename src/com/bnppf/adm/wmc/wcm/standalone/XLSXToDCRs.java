@@ -505,6 +505,12 @@ public class XLSXToDCRs {
 		boolean inParagraph = false;
 		for (int i = 0; i < rtsCellValue.length(); i++) {
 			String currentChar = rtsAsString.charAt(i) + "";
+			String nextChar = "";
+			try {
+				nextChar = rtsAsString.charAt(i + 1) + "";
+			} catch (Exception e) {
+				// Do nothing, ignore error}
+			}
 			String restOfStr = rtsAsString.substring(i + 1);
 			String restOfStrCleaned = restOfStr.replaceAll("\r", "").replaceAll("\n", "").replaceAll(" ", "");
 			String previousStr = rtsAsString.substring(0, i);
@@ -606,6 +612,8 @@ public class XLSXToDCRs {
 			if (inList) {
 				if (currentChar.matches("[1-9]") && restOfStr.startsWith(". ")) {
 					// Do nothing, it's a list item char
+				} else if (previousChar.matches("[1-9]") && currentChar.equalsIgnoreCase(".") && nextChar.matches("[0-9]")) {
+					sb.append(currentChar);
 				} else if (previousChar.matches("[1-9]") && currentChar.equalsIgnoreCase(".")) {
 					// Do nothing, it's a list item char
 				} else if (previousStrCleaned.substring(previousStrCleaned.length() - 2).matches("[1-9]\\.") && currentChar.equalsIgnoreCase(" ")) {
