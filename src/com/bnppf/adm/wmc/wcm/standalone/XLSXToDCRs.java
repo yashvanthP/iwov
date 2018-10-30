@@ -112,10 +112,10 @@ public class XLSXToDCRs {
 			if (null != client) {
 				// topicContents has modul as key, then HashMap <String, Integer> with sub-modul
 				// as key and num of QA DCRs as value
-				HashMap<String, HashMap<String, Integer>> topicContents = new HashMap<>();
+				HashMap<String, HashMap<String, Integer>> topicContents = new HashMap<String, HashMap<String, Integer>>();
 				// localisedModules has modul/sub-modul as key, then HashMap <String, String>
 				// with short lang as key and localised modul as value
-				HashMap<String, HashMap<String, String>> localisedModules = new HashMap<>();
+				HashMap<String, HashMap<String, String>> localisedModules = new HashMap<String, HashMap<String, String>>();
 
 				CSDir rootDirQA = null;
 				try {
@@ -148,10 +148,10 @@ public class XLSXToDCRs {
 						while (rowIterator.hasNext()) {
 							XSSFRow row = (XSSFRow) rowIterator.next();
 
-							HashMap<String, String> currentRowContent = new HashMap<>();
-							ArrayList<String> currentRowLinks = new ArrayList<>();
-							ArrayList<String> currentRowExternalLinks = new ArrayList<>();
-							ArrayList<String> currentRowFormIDs = new ArrayList<>();
+							HashMap<String, String> currentRowContent = new HashMap<String, String>();
+							ArrayList<String> currentRowLinks = new ArrayList<String>();
+							ArrayList<String> currentRowExternalLinks = new ArrayList<String>();
+							ArrayList<String> currentRowFormIDs = new ArrayList<String>();
 
 							// Extract cell contents for the current row
 							Iterator<Cell> cellIterator = row.cellIterator();
@@ -218,7 +218,7 @@ public class XLSXToDCRs {
 								String moduleKey = currentRowModule + "/" + currentRowSubModule;
 								HashMap<String, String> localisedModule = localisedModules.get(moduleKey);
 								if (null == localisedModule) {
-									localisedModule = new HashMap<>();
+									localisedModule = new HashMap<String, String>();
 									boolean foundAtLeastOne = false;
 									for (int l = 0; l < LANGUAGES.length; l++) {
 										String currentLocalisedModuleValue = currentRowContent.get((DIR_NAME_HEADING + "_" + LANGUAGES[l]).trim().toLowerCase().replaceAll(" ", "_")).replaceAll("\\?", "");
@@ -243,7 +243,7 @@ public class XLSXToDCRs {
 								// Add content for Topics
 								HashMap<String, Integer> currentTopic = topicContents.get(currentRowModule);
 								if (null == currentTopic) {
-									topicContents.put(currentRowModule, new HashMap<>());
+									topicContents.put(currentRowModule, new HashMap<String, Integer>());
 									currentTopic = topicContents.get(currentRowModule);
 									System.out.println("Added topic: " + currentRowModule);
 								}
