@@ -48,7 +48,7 @@ import com.interwoven.cssdk.filesys.CSWorkarea;
  * XLSXToDCRs reads an Excel file and uses it to generate DCRs.
  * 
  * @author jpope
- * @version 2018-10-23 14:21
+ * @version 2018-10-30 11:48
  *
  */
 public class XLSXToDCRs {
@@ -61,7 +61,7 @@ public class XLSXToDCRs {
 	private static final String LINK_ARGB_ANCHOR_GENERIC = "FFF79646";
 	private static final String LINK_ARGB_ANCHOR_SPECIFIC = "FF00B050";
 
-	@SuppressWarnings({"deprecation", "TryFinallyCanBeTryWithResources"})
+	@SuppressWarnings({"deprecation"})
 	public static void main(String[] args) {
 		long startTime = System.currentTimeMillis();
 		debugMsg("Starting the main method", startTime);
