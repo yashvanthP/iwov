@@ -563,7 +563,7 @@ public class XLSXToDCRs {
 						sb.append("<InternalLink reference=\"LINKTODO\" target=\"current\">");
 						inInternalLink = true;
 					} else if (currentARGBHexColour.equalsIgnoreCase(LINK_ARGB_EXTERNAL)) {
-						sb.append("<ExternalLink reference=\"EXTERNALTODO\" target=\"new\">");
+						sb.append("<ExternalLink url=\"EXTERNALTODO\" target=\"new\">");
 						inExternalLink = true;
 					} else if (currentARGBHexColour.equalsIgnoreCase(LINK_ARGB_ANCHOR_GENERIC)) {
 						sb.append("<Span xml:id=\"genericformsentrypoint\"><AnchorLink reference=\"javascript:void(0)\">");
