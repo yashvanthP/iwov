@@ -432,7 +432,7 @@ public class DCRSearch {
 					
 					// Replace .page URLs with their associated NodeId from the site map
 					if (null != sitemapRootEle) {
-			            Pattern patternPages = Pattern.compile("/sites/[^/]+/([^\\\"]+)\\.page", Pattern.CASE_INSENSITIVE);
+						Pattern patternPages = Pattern.compile("/sites/[^/]+/([^\\\"]+)\\.page", Pattern.CASE_INSENSITIVE);
 						Matcher matcherPages = patternPages.matcher(currentDCRJSONContent);
 						while (matcherPages.find()) {
 							String foundURL = matcherPages.group(0);
@@ -710,7 +710,7 @@ public class DCRSearch {
 				{"<OrderedList>", "<ol>"},
 				{"</OrderedList>", "</ol>"},
 				{"<InternalLink reference", "<a href"},
-				{"<ExternalLink reference", "<a href"},
+				{"<ExternalLink url", "<a href"},
 				{" target=\\\\\\\"[^\"]+\\\\\\\"", ""},
 				{"</InternalLink>", "</a>"},
 				{"</ExternalLink>", "</a>"},
