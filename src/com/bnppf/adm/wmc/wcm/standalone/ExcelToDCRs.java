@@ -2,72 +2,108 @@ package com.bnppf.adm.wmc.wcm.standalone;
 import com.interwoven.cssdk.common.CSClient;
 import com.interwoven.cssdk.factory.CSFactory;
 import com.interwoven.cssdk.filesys.CSDir;
+import com.interwoven.cssdk.filesys.CSFile;
+import com.interwoven.cssdk.filesys.CSVPath;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.dom4j.Document;
+import org.dom4j.Node;
+import org.dom4j.io.SAXReader;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.util.*;
 
 /**
- * ExcelToDCRs reads an Excel file and uses it to generate DCRs.
+ * ExcelToDCRs reads an Excel file, and a template DCR file, and uses them to generate DCRs.
  *
  * @author jpope
  * @version 2018-11-20 11:22
  *
  */
+@SuppressWarnings("deprecation, unchecked")
 public class ExcelToDCRs {
 	private static final String[] LANGUAGES_SHORT = new String[] { "nl", "fr", "en", "de" };
-	private static final String[] LANGUAGES = new String[] { "dutch", "french", "english", "german" };
-	private static CSClient client = null;
-	private static String excelFilePath;
-	private static String rootPathDCRs;
-	private static CSDir rootDirDCRs = null;
 
 	public static void main(String[] args) {
 		long startTime = System.currentTimeMillis();
 		debugMsg("Starting the main method", startTime);
 
-		if (args.length < 4) {
-			System.out.println("ERROR: ExcelToDCRs <username> <path to XLSX file> <vpath to DCR root directory> <path to cssdk.cfg> <optional password>");
+		if (args.length < 5) {
+			System.out.println("ERROR: ExcelToDCRs <username> <path to XLSX file> <path to DCR template file> <vpath to DCR root directory> <path to cssdk.cfg> <optional password>");
 		} else {
 			System.out.println(args.length);
 			String username = args[0];
-			excelFilePath = args[1];
-			rootPathDCRs = args[2].endsWith("/") ? args[2] : args[2] + "/";
-			String pathToCSSDKCfg = args[3];
-			String password = (args.length == 5) ? args[4] : new String(System.console().readPassword("Password: "));
+			String excelFilePath = args[1];
+			String templateDCRPath = args[2];
+			String rootPathDCRs = args[3].endsWith("/") ? args[3] : args[3] + "/";
+			String pathToCSSDKCfg = args[4];
+			String password = (args.length == 6) ? args[5] : new String(System.console().readPassword("Password: "));
 
 			debugMsg("Username: " + username, startTime);
 			debugMsg("XSLX file: " + excelFilePath, startTime);
+			debugMsg("Template DCR file: " + templateDCRPath, startTime);
 			debugMsg("DCRs root path: " + rootPathDCRs, startTime);
 			debugMsg("CSSDK config: " + pathToCSSDKCfg, startTime);
 
-			// Get the CSClient which we'll use for reading/writing to the TeamSite content store
-			/*client = getCSSDKClient(username, password, pathToCSSDKCfg);
 			try {
-				CSFile fileAtVpath = client.getFile(new CSVPath(rootPathDCRs));
-				if ((null != fileAtVpath) && (fileAtVpath.isWritable())) {
-					rootDirDCRs = (CSDir)fileAtVpath;
-					debugMsg("DCRs root path is valid and writeable.", startTime);
-				} else {
-					debugMsg("ERROR: DCRs root path is invalid and/or not writeable. Does that directory exist?", startTime);
+				Document templateDCR = getTemplateDCR(templateDCRPath);
+				System.out.print("Template DCR: \n" + templateDCR.asXML() + "\n");
+				List<Node> replacementNodes = templateDCR.selectNodes("//*[text()[contains(.,'{{')]]");
+				for (Node currentNode : replacementNodes) {
+					String currentNodeText = currentNode.getText().trim();
+					currentNodeText = currentNodeText.replaceFirst("\\{\\{", "").replaceFirst("}}", "").trim();
+					System.out.println("Node: " + currentNode.getName() + ": " + currentNodeText);
+					currentNode.setText(currentNodeText);
+				}
+
+				List<HashMap<String, String>> excelContents = getExcelContents(excelFilePath);
+				for (HashMap<String, String> excelRow : excelContents) {
+					HashMap<String, Document> dcrDocuments = new HashMap<String, Document>();
+					for (String currentLangShort : LANGUAGES_SHORT) {
+						dcrDocuments.put(currentLangShort, (Document)templateDCR.clone());
+					}
+					for (Map.Entry<String, String> excelRowContents : excelRow.entrySet()) {
+						String columnName = excelRowContents.getKey();
+						String columnValue = excelRowContents.getValue();
+						int langSeperatorIndex = columnName.indexOf("_") + 1;
+						if (langSeperatorIndex > 0) {
+							String currentColumnLang = columnName.substring(langSeperatorIndex);
+							Document currentDCR = dcrDocuments.get(currentColumnLang);
+							if (null != currentDCR) {
+								for (Node currentReplacementNode : replacementNodes) {
+									if (columnName.contains(currentReplacementNode.getStringValue())) {
+										Node foundNode = currentDCR.selectSingleNode("//" + currentReplacementNode.getName());
+										if (null != foundNode) {
+											foundNode.setText(columnValue);
+										}
+									}
+								}
+							}
+						}
+					}
+					for (Map.Entry<String, Document> dcrDocumentMap : dcrDocuments.entrySet()) {
+						Document dcrDoc = dcrDocumentMap.getValue();
+						System.out.println(dcrDoc.asXML());
+					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-			}*/
+			}
 
+			// Get the CSClient which we'll use for reading/writing to the TeamSite content store
+			CSClient client = getCSSDKClient(username, password, pathToCSSDKCfg);
 			try {
-				List<List<String>> excelContents = getExcelContents(excelFilePath);
-				for (List<String> excelRow : excelContents) {
-					for (String excelColumn : excelRow) {
-						System.out.print("\"" + excelColumn + "\",");
-					}
-					System.out.println("");
+				CSFile fileAtVpath = client.getFile(new CSVPath(rootPathDCRs));
+				if ((null != fileAtVpath) && (fileAtVpath.isWritable())) {
+					CSDir rootDirDCRs = (CSDir)fileAtVpath;
+					debugMsg("DCRs root path is valid and writeable.", startTime);
+				} else {
+					debugMsg("ERROR: DCRs root path is invalid and/or not writeable. Does that directory exist?", startTime);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -93,10 +129,10 @@ public class ExcelToDCRs {
 		return theClient;
 	}
 
-	private static List<List<String>> getExcelContents(String excelFilePath) {
-		List<List<String>> excelContents = new LinkedList<List<String>>();
+	private static List<HashMap<String, String>> getExcelContents(String excelFilePath) {
+		List<HashMap<String, String>> excelContents = new LinkedList<HashMap<String, String>>();
 		try {
-			StringBuilder sbErrors = new StringBuilder();
+			String headings[] = null;
 			BufferedInputStream bis = new BufferedInputStream(new FileInputStream(excelFilePath));
 			XSSFWorkbook wb = new XSSFWorkbook(bis);
 			XSSFSheet sheet = wb.getSheetAt(0);
@@ -104,7 +140,7 @@ public class ExcelToDCRs {
 			Iterator<Row> rowIterator = sheet.rowIterator();
 			while (rowIterator.hasNext()) {
 				XSSFRow row = (XSSFRow) rowIterator.next();
-				List<String> currentRowContents = new LinkedList<String>();
+				HashMap<String, String> currentRowContents = new HashMap<String, String>();
 
 				// Extract cell contents for the current row
 				Iterator<Cell> cellIterator = row.cellIterator();
@@ -118,25 +154,43 @@ public class ExcelToDCRs {
 						cellValue = cell.getStringCellValue().trim();
 					}
 
-					if (!cellValue.isEmpty()) {
-						atLeastOneNotEmpty = true;
-						if (excelContents.isEmpty()) {
-							// If this is the first row, convert headings
-							cellValue = cellValue.toLowerCase().trim().replaceAll(" ", "_");
+					// If this is the first row, then extract the headings
+					if (sheet.getFirstRowNum() == row.getRowNum()) {
+						cellValue = cellValue.toLowerCase().trim().replaceAll(" ", "_");
+						if (null == headings) {
+							headings = new String[row.getLastCellNum()];
 						}
+						headings[cell.getColumnIndex()] = cellValue;
+					} else {
+						if (!cellValue.isEmpty()) {
+							atLeastOneNotEmpty = true;
+						}
+						currentRowContents.put(headings[cell.getColumnIndex()], cellValue);
 					}
-
-					currentRowContents.add(cellValue);
 				}
 
 				if (atLeastOneNotEmpty) {
 					excelContents.add(currentRowContents);
 				}
 			}
+			bis.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return excelContents;
+	}
+
+	private static Document getTemplateDCR(String filePath) {
+		Document templateDCR = null;
+		try {
+			BufferedInputStream bis = new BufferedInputStream(new FileInputStream(filePath));
+			SAXReader reader = new SAXReader();
+			templateDCR = reader.read(bis);
+			bis.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return templateDCR;
 	}
 
 	/**
