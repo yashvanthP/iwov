@@ -33,20 +33,21 @@ public class ExcelToDCRs {
 		long startTime = System.currentTimeMillis();
 		debugMsg("Starting the main method", startTime);
 
-		if (args.length < 5) {
+		if (args.length < 6) {
 			System.out.println("ERROR: ExcelToDCRs <username> <path to XLSX file> <path to DCR template file> <vpath to DCR root directory> <path to cssdk.cfg> <optional password>");
 		} else {
-			System.out.println(args.length);
 			String username = args[0];
 			String excelFilePath = args[1];
 			String templateDCRPath = args[2];
-			String rootPathDCRs = args[3].endsWith("/") ? args[3] : args[3] + "/";
-			String pathToCSSDKCfg = args[4];
-			String password = (args.length == 6) ? args[5] : new String(System.console().readPassword("Password: "));
+			String indexFileColumn = args[3];
+			String rootPathDCRs = args[4].endsWith("/") ? args[4] : args[4] + "/";
+			String pathToCSSDKCfg = args[5];
+			String password = (args.length == 7) ? args[6] : new String(System.console().readPassword("Password: "));
 
 			debugMsg("Username: " + username, startTime);
 			debugMsg("XSLX file: " + excelFilePath, startTime);
 			debugMsg("Template DCR file: " + templateDCRPath, startTime);
+			debugMsg("Index file column name: " + indexFileColumn, startTime);
 			debugMsg("DCRs root path: " + rootPathDCRs, startTime);
 			debugMsg("CSSDK config: " + pathToCSSDKCfg, startTime);
 
@@ -55,7 +56,6 @@ public class ExcelToDCRs {
 			try {
 				CSFile fileAtVpath = client.getFile(new CSVPath(rootPathDCRs));
 				if ((null != fileAtVpath) && (fileAtVpath.isWritable())) {
-					CSDir rootDirDCRs = (CSDir)fileAtVpath;
 					debugMsg("DCRs root path is valid and writeable.", startTime);
 				} else {
 					debugMsg("ERROR: DCRs root path is invalid and/or not writeable. Does that directory exist?", startTime);
@@ -66,12 +66,12 @@ public class ExcelToDCRs {
 
 			try {
 				Document templateDCR = getTemplateDCR(templateDCRPath);
-				System.out.print("Template DCR: \n" + templateDCR.asXML() + "\n");
+				debugMsg("Template DCR: \n" + templateDCR.asXML(), startTime);
 				List<Node> replacementNodes = templateDCR.selectNodes("//*[text()[contains(.,'{{')]]");
 				for (Node currentNode : replacementNodes) {
 					String currentNodeText = currentNode.getText().trim();
 					currentNodeText = currentNodeText.replaceFirst("\\{\\{", "").replaceFirst("}}", "").trim();
-					System.out.println("Node: " + currentNode.getName() + ": " + currentNodeText);
+					debugMsg("Node: " + currentNode.getName() + ": " + currentNodeText, startTime);
 					currentNode.setText(currentNodeText);
 				}
 
@@ -85,7 +85,7 @@ public class ExcelToDCRs {
 					for (Map.Entry<String, String> excelRowContents : excelRow.entrySet()) {
 						String columnName = excelRowContents.getKey();
 						String columnValue = excelRowContents.getValue();
-						if (columnName.equalsIgnoreCase("page")) {
+						if (columnName.equalsIgnoreCase(indexFileColumn)) {
 							currentIndexName = columnValue.toLowerCase().trim().replaceAll(" ", "_");
 						}
 						
@@ -107,14 +107,13 @@ public class ExcelToDCRs {
 					}
 					for (String currentLangShort : LANGUAGES_SHORT) {
 						Document dcrDoc = (Document)dcrDocuments.get(currentLangShort);
-						//System.out.println(dcrDoc.asXML());
 						String fullPathToDCR = rootPathDCRs + currentLangShort + "/" + currentIndexName + ".xml";
 						boolean writeOK = XLSXToDCRs.writeXML(fullPathToDCR, dcrDoc, client, currentLangShort, "site-management/page");
-						System.out.println("Generated DCR at " + fullPathToDCR + " OK: " + writeOK);
+						debugMsg("Generated DCR at " + fullPathToDCR + " OK: " + writeOK, startTime);
 						if (currentLangShort.equalsIgnoreCase("en")) {
 							fullPathToDCR = rootPathDCRs + currentIndexName + ".xml";
 							writeOK = XLSXToDCRs.writeXML(fullPathToDCR, dcrDoc, client, currentLangShort, "site-management/page");
-							System.out.println("Generated DCR at " + fullPathToDCR + " OK: " + writeOK);
+							debugMsg("Generated DCR at " + fullPathToDCR + " OK: " + writeOK, startTime);
 						}
 					}
 				}
@@ -122,6 +121,7 @@ public class ExcelToDCRs {
 				e.printStackTrace();
 			}
 		}
+		debugMsg("Finished.", startTime);
 	}
 
 	private static CSClient getCSSDKClient(String username, String password, String pathToCSSDKCfg) {
