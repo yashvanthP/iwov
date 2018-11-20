@@ -725,7 +725,7 @@ public class XLSXToDCRs {
 		return hasChanged;
 	}
 
-	private static boolean writeXML(String path, Document doc, CSClient client, String lang, String type) {
+	protected static boolean writeXML(String path, Document doc, CSClient client, String lang, String type) {
 		try {
 			CSVPath vpath = new CSVPath(path);
 			CSSimpleFile theFile = (CSSimpleFile) client.getFile(vpath);

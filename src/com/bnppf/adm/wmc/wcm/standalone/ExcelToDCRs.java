@@ -25,10 +25,10 @@ import java.util.*;
  * @version 2018-11-20 11:22
  *
  */
-@SuppressWarnings("deprecation, unchecked")
 public class ExcelToDCRs {
 	private static final String[] LANGUAGES_SHORT = new String[] { "nl", "fr", "en", "de" };
 
+	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 		long startTime = System.currentTimeMillis();
 		debugMsg("Starting the main method", startTime);
@@ -50,6 +50,20 @@ public class ExcelToDCRs {
 			debugMsg("DCRs root path: " + rootPathDCRs, startTime);
 			debugMsg("CSSDK config: " + pathToCSSDKCfg, startTime);
 
+			// Get the CSClient which we'll use for reading/writing to the TeamSite content store
+			CSClient client = getCSSDKClient(username, password, pathToCSSDKCfg);
+			try {
+				CSFile fileAtVpath = client.getFile(new CSVPath(rootPathDCRs));
+				if ((null != fileAtVpath) && (fileAtVpath.isWritable())) {
+					CSDir rootDirDCRs = (CSDir)fileAtVpath;
+					debugMsg("DCRs root path is valid and writeable.", startTime);
+				} else {
+					debugMsg("ERROR: DCRs root path is invalid and/or not writeable. Does that directory exist?", startTime);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 			try {
 				Document templateDCR = getTemplateDCR(templateDCRPath);
 				System.out.print("Template DCR: \n" + templateDCR.asXML() + "\n");
@@ -63,6 +77,7 @@ public class ExcelToDCRs {
 
 				List<HashMap<String, String>> excelContents = getExcelContents(excelFilePath);
 				for (HashMap<String, String> excelRow : excelContents) {
+					String currentIndexName = "";
 					HashMap<String, Document> dcrDocuments = new HashMap<String, Document>();
 					for (String currentLangShort : LANGUAGES_SHORT) {
 						dcrDocuments.put(currentLangShort, (Document)templateDCR.clone());
@@ -70,6 +85,10 @@ public class ExcelToDCRs {
 					for (Map.Entry<String, String> excelRowContents : excelRow.entrySet()) {
 						String columnName = excelRowContents.getKey();
 						String columnValue = excelRowContents.getValue();
+						if (columnName.equalsIgnoreCase("page")) {
+							currentIndexName = columnValue.toLowerCase().trim().replaceAll(" ", "_");
+						}
+						
 						int langSeperatorIndex = columnName.indexOf("_") + 1;
 						if (langSeperatorIndex > 0) {
 							String currentColumnLang = columnName.substring(langSeperatorIndex);
@@ -86,24 +105,18 @@ public class ExcelToDCRs {
 							}
 						}
 					}
-					for (Map.Entry<String, Document> dcrDocumentMap : dcrDocuments.entrySet()) {
-						Document dcrDoc = dcrDocumentMap.getValue();
-						System.out.println(dcrDoc.asXML());
+					for (String currentLangShort : LANGUAGES_SHORT) {
+						Document dcrDoc = (Document)dcrDocuments.get(currentLangShort);
+						//System.out.println(dcrDoc.asXML());
+						String fullPathToDCR = rootPathDCRs + currentLangShort + "/" + currentIndexName + ".xml";
+						boolean writeOK = XLSXToDCRs.writeXML(fullPathToDCR, dcrDoc, client, currentLangShort, "site-management/page");
+						System.out.println("Generated DCR at " + fullPathToDCR + " OK: " + writeOK);
+						if (currentLangShort.equalsIgnoreCase("en")) {
+							fullPathToDCR = rootPathDCRs + currentIndexName + ".xml";
+							writeOK = XLSXToDCRs.writeXML(fullPathToDCR, dcrDoc, client, currentLangShort, "site-management/page");
+							System.out.println("Generated DCR at " + fullPathToDCR + " OK: " + writeOK);
+						}
 					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			// Get the CSClient which we'll use for reading/writing to the TeamSite content store
-			CSClient client = getCSSDKClient(username, password, pathToCSSDKCfg);
-			try {
-				CSFile fileAtVpath = client.getFile(new CSVPath(rootPathDCRs));
-				if ((null != fileAtVpath) && (fileAtVpath.isWritable())) {
-					CSDir rootDirDCRs = (CSDir)fileAtVpath;
-					debugMsg("DCRs root path is valid and writeable.", startTime);
-				} else {
-					debugMsg("ERROR: DCRs root path is invalid and/or not writeable. Does that directory exist?", startTime);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -129,6 +142,7 @@ public class ExcelToDCRs {
 		return theClient;
 	}
 
+	@SuppressWarnings("deprecation")
 	private static List<HashMap<String, String>> getExcelContents(String excelFilePath) {
 		List<HashMap<String, String>> excelContents = new LinkedList<HashMap<String, String>>();
 		try {
@@ -174,6 +188,7 @@ public class ExcelToDCRs {
 				}
 			}
 			bis.close();
+			wb.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
