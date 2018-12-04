@@ -149,13 +149,13 @@ public class Migration {
 		try {
 			CSDir rootDir = client.getBranch(new CSVPath(branchVpath), true).getWorkareas()[0].getRootDir();
 			debugMsg("- Got branch root directory: " + rootDir.getVPath().getPathNoServer().toString() + ". Looking for DCRs now...", startTime);
-			CSIterator files = recursiveFileSearch(rootDir, ".*\\.xml");
+			CSIterator files = recursiveFileSearch((CSDir)client.getFile(new CSVPath(rootDir.getVPath().toString() + "/templatedata/")), ".*\\.xml");
 			if (files.getTotalSize() > 0) {
 				debugMsg("- Found " + files.getTotalSize() + " DCRs. Getting associations for these DCRs now...", startTime);
 				while (files.hasNext()) {
 					CSSimpleFile file = (CSSimpleFile) files.next();
 
-					if (file.getVPath().toString().contains("templatedata")) {
+					//if (file.getVPath().toString().contains("templatedata")) {
 						Element dcr = resultEle.addElement("dcr");
 						String vpath = file.getVPath().getPathNoServer().toString();
 						dcr.addAttribute("vpath", vpath);
@@ -164,7 +164,7 @@ public class Migration {
 						if (associations.hasContent()) {
 							dcr.add(associations);
 						}
-					}
+					//}
 				}
 				debugMsg("- Finished getting associations for the DCRs.", startTime);
 			} else {
