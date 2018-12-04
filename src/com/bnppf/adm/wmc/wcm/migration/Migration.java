@@ -1,15 +1,23 @@
 package com.bnppf.adm.wmc.wcm.migration;
 import com.interwoven.cssdk.common.CSClient;
 import com.interwoven.cssdk.common.CSIterator;
+import com.interwoven.cssdk.common.CSObjectNotFoundException;
 import com.interwoven.cssdk.factory.CSJavaFactory;
 import com.interwoven.cssdk.filesys.*;
+import org.apache.poi.util.IOUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
 import org.dom4j.tree.BaseElement;
 
-import java.io.File;
+import java.io.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.lang.System.exit;
 
@@ -53,49 +61,160 @@ public class Migration {
 			if (serverType.equalsIgnoreCase("teamsite")) {
 				String username = "root";//new String(System.console().readLine("Username: "));
 				String password = "password";//new String(System.console().readPassword("Password: "));
-				String pathToCSSDKCfg = "C:\\Users\\jpope\\Documents\\opentext\\clients\\bnp_paribas\\projects\\2018-11-27_migration\\cssdk.cfg";//new String(System.console().readLine("Path to cssdk.cfg: "));
+				String pathToCSSDKCfg = "C:\\Users\\jpope\\IdeaProjects\\bnppf\\cssdk.cfg";//new String(System.console().readLine("Path to cssdk.cfg: "));
 
 				// Get the CSClient which we'll use for reading/writing to the TeamSite content store
 				CSClient client = getCSSDKClient(username, password, pathToCSSDKCfg);
-				debugMsg("Server type is: TeamSite. Got CSSDK client.", startTime);
+				debugMsg("Server type is: TeamSite. Got CSSDK client. Generating results document now...", startTime);
 
-				Document resultsDoc = generateTeamSiteResults(reportType, client, "/default/main/bnppf/");
-				debugMsg(resultsDoc.asXML(), startTime);
+				Document resultsDoc = generateTeamSiteResults(reportType, client, "/default/main/bnppf/", startTime);
+
+				debugMsg("Completed results document generation. Saving to file now...", startTime);
+				//debugMsg(resultsDoc.asXML(), startTime);
+				try {
+					FileOutputStream fos = new FileOutputStream(reportFile);
+					OutputFormat format = OutputFormat.createPrettyPrint();
+					XMLWriter writer = new XMLWriter(fos, format);
+					writer.write(resultsDoc);
+					writer.flush();
+					debugMsg("Saved results document file to: " + reportFile.getCanonicalPath(), startTime);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			} else {
 				debugMsg("Server type is: LiveSite.", startTime);
-
+				// TODO
 			}
 		}
+		debugMsg("Finished.", startTime);
 	}
 
-	private static Document generateTeamSiteResults(String reportType, CSClient client, String branchVpath) {
+	private static Document generateTeamSiteResults(String reportType, CSClient client, String branchVpath, long startTime) {
 		Document resultsDoc = DocumentHelper.createDocument();
 		Element rootEle = resultsDoc.addElement("results");
 		rootEle.addAttribute("server", client.getRoot().getVPath().getServerName());
 
 		if (reportType.equalsIgnoreCase(REPORT_TYPES[0])) {
-			Element pageResults = generateTeamSitePageResults(client, branchVpath);
+			Element pageResults = generateTeamSitePageResults(client, branchVpath, startTime);
 			rootEle.add(pageResults);
 		}
 
 		return resultsDoc;
 	}
 
-	private static Element generateTeamSitePageResults(CSClient client, String branchVpath) {
+	private static Element generateTeamSitePageResults(CSClient client, String branchVpath, long startTime) {
 		Element resultEle = new BaseElement("pages");
 		resultEle.addAttribute("branch", branchVpath);
 		try {
 			CSDir rootDir = client.getBranch(new CSVPath(branchVpath), true).getWorkareas()[0].getRootDir();
+			debugMsg("- Got branch root directory: " + rootDir.getVPath().getPathNoServer().toString() + ". Looking for Pages now...", startTime);
 			CSIterator files = recursiveFileSearch(rootDir, ".*\\.page");
-			while (files.hasNext()) {
-				CSSimpleFile file = (CSSimpleFile) files.next();
-				String vpath = file.getVPath().toString();
-				resultEle.addElement("vpath").setText(vpath.substring(vpath.indexOf("/sites/") + 7));
+			if (files.getTotalSize() > 0) {
+				debugMsg("- Found " + files.getTotalSize() + " Pages. Getting associations for these Pages now...", startTime);
+				while (files.hasNext()) {
+					CSSimpleFile file = (CSSimpleFile) files.next();
+
+					Element page = resultEle.addElement("page");
+					String vpath = file.getVPath().getPathNoServer().toString();
+					page.addAttribute("vpath", vpath);
+
+					Element associations = getAssociations(client, file);
+					if (associations.hasContent()) {
+						page.add(associations);
+					}
+				}
+				List missingNodes = resultEle.selectNodes("//@missing = 'true'");
+				debugMsg("- Finished getting associations for the Pages. Found " + missingNodes.size() + " missing association(s).", startTime);
+			} else {
+				debugMsg("- Didn't find any Pages.", startTime);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return resultEle;
+	}
+
+	private static Element getAssociations(CSClient client, CSSimpleFile file) {
+		Element associations = DocumentHelper.createElement("associations");
+
+		Field[] fields = CSAssociatable.class.getDeclaredFields();
+		String[] fieldNames = new String[fields.length];
+		for (Field f : fields) {
+			int mod = f.getModifiers();
+			if (Modifier.isStatic(mod) && Modifier.isPublic(mod) && Modifier.isFinal(mod)) {
+				try {
+					fieldNames[((Integer)f.get(null)).intValue()] = f.getName();
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		try {
+			String localWAVpath = file.getArea().getVPath().getPathNoServer().toString();
+
+			CSAssociation[] parentAssociations = file.getParentAssociations(null);
+			for (CSAssociation currentAssociation : parentAssociations) {
+				Element associationElement = associations.addElement("association");
+				associationElement.addAttribute("direction", "PARENT");
+				associationElement.addAttribute("type", currentAssociation.getType());
+				try {
+					CSAssociatable currentParent = currentAssociation.getParent();
+					associationElement.addAttribute("assetType", "" + fieldNames[currentParent.getAssetType()]);
+					associationElement.addAttribute("vpath", currentParent.getUAI());
+				} catch (CSObjectNotFoundException missingE) {
+					CSVpathAssociatable missingAsset = (CSVpathAssociatable) currentAssociation.getParent(false);
+					associationElement.addAttribute("assetType", "" + fieldNames[missingAsset.getAssetType()]);
+					associationElement.addAttribute("missing", "true");
+					associationElement.addAttribute("vpath", missingAsset.getVPath().toString());
+				}
+			}
+			CSAssociation[] childAssociations = file.getChildAssociations(null, false, true);
+			for (CSAssociation currentAssociation : childAssociations) {
+				Element associationElement = associations.addElement("association");
+				associationElement.addAttribute("direction", "CHILD");
+				associationElement.addAttribute("type", currentAssociation.getType());
+				try {
+					CSAssociatable currentChild = currentAssociation.getChild();
+					associationElement.addAttribute("assetType", "" + fieldNames[currentChild.getAssetType()]);
+					associationElement.addAttribute("vpath", currentChild.getUAI());
+				} catch (CSObjectNotFoundException missingE) {
+					CSVpathAssociatable missingAsset = (CSVpathAssociatable) currentAssociation.getChild(false);
+					associationElement.addAttribute("assetType", "" + fieldNames[missingAsset.getAssetType()]);
+					associationElement.addAttribute("missing", "true");
+					associationElement.addAttribute("vpath", missingAsset.getVPath().toString());
+				}
+			}
+
+			BufferedInputStream fileIS = file.getBufferedInputStream(true);
+			StringBuilder sbFileContents = new StringBuilder();
+			int content;
+			while ((content = fileIS.read()) != -1) {
+				sbFileContents.append((char) content);
+			}
+			fileIS.close();
+
+			Pattern patternXSL = Pattern.compile("(&lt;xsl:include href=\")(.*\\.xsl)(\".*/&gt;)", Pattern.CASE_INSENSITIVE);
+			Matcher matcherXSL = patternXSL.matcher(sbFileContents.toString());
+			while (matcherXSL.find()) {
+				String foundXSLResult = matcherXSL.group(2);
+				int localVpathStartIndex = foundXSLResult.indexOf("/custom/") + 8;
+				if (localVpathStartIndex > 7) {
+					String vpathXSLResult = localWAVpath + "/" + foundXSLResult.substring(localVpathStartIndex);
+					CSVPath vpathXSL = new CSVPath(vpathXSLResult);
+					CSFile fileXSL = client.getFile(vpathXSL);
+					Element associationElement = associations.addElement("association");
+					associationElement.addAttribute("direction", "PARENT");
+					if ((null == fileXSL) || !fileXSL.isReadable()) {
+						associationElement.addAttribute("missing", "true");
+					}
+					associationElement.addAttribute("vpath", vpathXSLResult);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return associations;
 	}
 
 	private static CSIterator recursiveFileSearch(CSDir dir, String searchRegex) {
