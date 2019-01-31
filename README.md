@@ -19,7 +19,7 @@
 
 To allow the FAQ QA Search from any page (Pre-Controller JSON)
 1. Deploy the FAQs (QA and topics) to LiveSite
-2. Deploy the synonyms Excel to LiveSite (e.g. rsc/contrib/image/Files/faq-synonyms.xlsx)
+2. Deploy the synonyms Excel [sample-faq_synonyms..xlsx](sample-faq_synonyms..xlsx) to LiveSite (e.g. rsc/contrib/image/Files/faq-synonyms.xlsx)
 3. Download [DCRSearch.java](src/com/bnppf/adm/wmc/wcm/externals/DCRSearch.java) and [XLSXToXMLDocument.java](src/com/bnppf/adm/wmc/wcm/externals/XLSXToXMLDocument.java) to livesite_customer_src/src/com/bnppf/adm/wmc/wcm/externals/, compile (or build) and deploy to LiveSite
 4. Create an empty “technical” page with the following Pre-Controller:
   * Param: attr=Pcbb.faq.faq-QA
