@@ -12,8 +12,8 @@
 5. Create the faq structure in your templatedata directory, if it doesn't already exist:
   * templatedata/faq/faq-QA/data/EBB/
   * templatedata/faq/faq-topic/data/EBB/
-6.	Compile the Java Class. You can use the [compile.sh](compile.sh) or [compile.bat](compile.bat) file as an example.
-7.	Run the Java Class. You can use the [run.sh](run.sh) or [run.bat](run.bat) file as an example.
+6.	Compile the Java Class. You can use the [compile.sh](compile.sh) or [compile.bat](compile.bat) file as an example. Run this from  <iw-home>/local/config/lib/content_center/customer_src/ directory.
+7.	Run the Java Class. You can use the [run.sh](run.sh) or [run.bat](run.bat) file as an example. Run this from <iw-home>/local/config/lib/content_center/customer_src/ directory.
 
 **Instructions for using the DCR Search functionality**
 
