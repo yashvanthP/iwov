@@ -20,10 +20,11 @@
 To allow the FAQ QA Search from any page (Pre-Controller JSON)
 1. Deploy the FAQs (QA and topics) to LiveSite
 2. Deploy the synonyms Excel [sample-faq_synonyms.xlsx](sample-faq_synonyms.xlsx) to LiveSite (e.g. rsc/contrib/image/Files/faq-synonyms.xlsx)
-3. Download [DCRSearch.java](src/com/bnppf/adm/wmc/wcm/externals/DCRSearch.java) and [XLSXToXMLDocument.java](src/com/bnppf/adm/wmc/wcm/externals/XLSXToXMLDocument.java) to livesite_customer_src/src/com/bnppf/adm/wmc/wcm/externals/, compile (or build) and deploy to LiveSite. Note: **ensure your text editor is set to UTF-8 encoding.**
-4. Create an empty “technical” page with the following Pre-Controller:
+3. Deploy the JARs from step 4 above to LiveSite.
+4. Download [DCRSearch.java](src/com/bnppf/adm/wmc/wcm/externals/DCRSearch.java) and [XLSXToXMLDocument.java](src/com/bnppf/adm/wmc/wcm/externals/XLSXToXMLDocument.java) to livesite_customer_src/src/com/bnppf/adm/wmc/wcm/externals/, compile (or build) and deploy to LiveSite. Note: **ensure your text editor is set to UTF-8 encoding.**
+5. Create an empty “technical” page with the following Pre-Controller:
   * Param: attr=Pcbb.faq.faq-QA
   * Object: com.bnppf.adm.wmc.wcm.externals.DCRSearch
   * Method: searchJSON
-5.	Call the page (using jQuery) with the search parameter and language, e.g. /faqsearch.page?search=account&axes1=en
-6.	Parse the JSON results in the page to display them in the required format, adding syntax highlighting as required.
+6.	Call the page (using jQuery) with the search parameter and language, e.g. /faqsearch.page?search=account&axes1=en
+7.	Parse the JSON results in the page to display them in the required format, adding syntax highlighting as required.
