@@ -14,3 +14,14 @@
   * templatedata/faq/faq-topic/data/EBB/
 6.	Compile the Java Class. You can use the [compile.sh](compile.sh) or [compile.bat](compile.bat) file as an example.
 7.	Run the Java Class. You can use the [run.sh](run.sh) or [run.bat](run.bat) file as an example.
+
+** Instructions for using the DCR Search functionality**
+
+To allow the FAQ QA Search from any page (Pre-Controller JSON)
+1. Download [DCRSearch.java](src/com/bnppf/adm/wmc/wcm/externals/DCRSearch.java) to livesite_customer_src/src/com/bnppf/adm/wmc/wcm/externals/, compile it and deploy the Class to LiveSite
+1. Create an empty “technical” page with the following Pre-Controller:
+  * Param: attr=Pcbb.faq.faq-QA
+  * Object: com.bnppf.adm.wmc.wcm.externals.DCRSearch
+  * Method: searchJSON
+2.	Call the page (using jQuery) with the search parameter and language, e.g. /faqsearch.page?search=account&axes1=en
+3.	Parse the JSON results in the page to display them in the required format, adding syntax highlighting as required.
