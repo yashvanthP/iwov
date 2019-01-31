@@ -15,7 +15,7 @@
 6.	Compile the Java Class. You can use the [compile.sh](compile.sh) or [compile.bat](compile.bat) file as an example.
 7.	Run the Java Class. You can use the [run.sh](run.sh) or [run.bat](run.bat) file as an example.
 
-** Instructions for using the DCR Search functionality**
+**Instructions for using the DCR Search functionality**
 
 To allow the FAQ QA Search from any page (Pre-Controller JSON)
 1. Download [DCRSearch.java](src/com/bnppf/adm/wmc/wcm/externals/DCRSearch.java) to livesite_customer_src/src/com/bnppf/adm/wmc/wcm/externals/, compile it and deploy the Class to LiveSite
