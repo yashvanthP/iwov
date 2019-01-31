@@ -8,5 +8,5 @@
   * poi-ooxml-schemas-3.17.jar
   * commons-collections4-4.1.jar (it’s in the lib directory in the ZIP)
   * xmlbeans-2.6.0.jar (it’s in the ooxml-lib directory in the ZIP)
-4.	Compile the Java Class. You can use the [compile.sh](compile.sh) file as an example
-5.	Run the Java Class. You can use the [run.sh](run.sh) file as an example.
+4.	Compile the Java Class. You can use the [compile.sh](compile.sh) or [compile.bat](compile.bat) file as an example
+5.	Run the Java Class. You can use the [run.sh](run.sh) or [run.bat](run.bat) file as an example.
