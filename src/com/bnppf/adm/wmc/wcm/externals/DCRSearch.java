@@ -181,7 +181,7 @@ public class DCRSearch {
 	 */
 	public Document getDCRByFriendlyURL(RequestContext context) {
 		long startTime = System.currentTimeMillis();
-		debugMsg("Starting the getDCR method", startTime);
+		debugMsg("Starting the getDCRByFriendlyURL method", startTime);
 
 		HttpServletRequest req = context.getRequest();
 
@@ -209,20 +209,20 @@ public class DCRSearch {
 			}
 			debugMsg("Got the XML doc", startTime);
 
-			if ((null == jvmDoc) || (!jvmDoc.hasContent())) {
+			if ((null != jvmDoc) && (jvmDoc.hasContent())) {
 				doc = Dom4jUtils.newDocument();
 				Element rootElement = doc.addElement("dcrs");
 				Node foundDCR = jvmDoc.selectSingleNode("//dcr[Content/friendly-url = '" + friendlyURL + "']");
 				if (null != foundDCR) {
 					debugMsg("Found matching DCR.", startTime);
-					doc.add(foundDCR.detach());
+					rootElement.add(foundDCR.detach());
 				} else {
 					debugMsg("Did not find matching DCR.", startTime);
 				}
 			}
 		}
 
-		debugMsg("Finished the getDCR method", startTime);
+		debugMsg("Finished the getDCRByFriendlyURL method", startTime);
 
 		return doc;
 	}
