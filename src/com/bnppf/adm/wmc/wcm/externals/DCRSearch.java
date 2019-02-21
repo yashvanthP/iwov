@@ -42,7 +42,7 @@ import com.interwoven.livesite.runtime.RequestContext;
  * Context attributes.
  * 
  * @author jpope
- * @version 1.4
+ * @version 1.5
  *
  */
 public class DCRSearch {
@@ -70,6 +70,7 @@ public class DCRSearch {
 	private static final String CONTENTELEMENTATTR = "contentElementName";
 	private static final String NODEID = "nodeId";
 	private static final String SYNONYMSATTRIBUTE = "faq.synonyms";
+	private static final String FRIENDLYURLATTRIBUTE = "friendly-url";
 	
 	// These next vars define the weights for search results
 	private static final int HIT_POINTS_COMPLETE_TERM_QUESTION = 200;
@@ -169,6 +170,60 @@ public class DCRSearch {
 
 		debugMsg("Finished the execute method", startTime);
 		
+		return doc;
+	}
+
+
+	/**
+	 * This method returns a DCR based on its friendly-url field.
+	 * @param context The LiveSite RequestContext object.
+	 * @return The XML Document of found DCR(s), e.g. (dcrs)(dcr path="...")(Contents/)(/dcr)(dcr path="...")(Contents/)(/dcr)(/dcrs).
+	 */
+	public Document getDCRByFriendlyURL(RequestContext context) {
+		long startTime = System.currentTimeMillis();
+		debugMsg("Starting the getDCR method", startTime);
+
+		HttpServletRequest req = context.getRequest();
+
+		// The XML document in which we will store the DCRs
+		Document doc = null;
+
+		String lang = req.getParameter(LANGPARAMNAME);
+		if ((null == lang) || (lang.isEmpty())) {
+			lang = DEFAULTLANG;
+		}
+		debugMsg("Language: " + lang, startTime);
+
+		String jvmAttribute = generateJVMAttributeName(context, lang);
+		debugMsg("jvmAttribute: " + jvmAttribute, startTime);
+
+		String friendlyURL = req.getParameter(FRIENDLYURLATTRIBUTE);
+		if ((null != friendlyURL) && (!friendlyURL.isEmpty())) {
+			debugMsg("friendlyURL: " + friendlyURL, startTime);
+
+			// Try to get the stored XML Document from the JVM Servlet context
+			Document jvmDoc = (Document) req.getSession().getServletContext().getAttribute(jvmAttribute);
+			if ((null == jvmDoc) || checkUpdateDCRDoc(jvmDoc)) {
+				debugMsg("Running execute method to populate DCR Document...", startTime);
+				jvmDoc = execute(context);
+			}
+			debugMsg("Got the XML doc", startTime);
+
+			if ((null == jvmDoc) || (!jvmDoc.hasContent())) {
+				doc = Dom4jUtils.newDocument();
+				Element rootElement = doc.addElement("dcrs");
+				Node foundDCR = jvmDoc.selectSingleNode("//dcr[Content/friendly-url = '" + friendlyURL + "']");
+				if (null != foundDCR) {
+					debugMsg("Found matching DCR.", startTime);
+					doc.add(foundDCR.detach());
+				} else {
+					debugMsg("Did not find matching DCR.", startTime);
+				}
+			}
+		}
+
+		debugMsg("Finished the getDCR method", startTime);
+
 		return doc;
 	}
 	
@@ -526,7 +581,8 @@ public class DCRSearch {
 	 * Recursively read all DCRs in the current directory and all lang child directories. Each time a valid DCR is found, its contents are
 	 * added to the parent XML Document, e.g. <dcrs path="..."><dcr path="..."><Contents/></dcr><dcr path=".."><Contents/></dcr></dcrs>.
 	 * Ignores directories inside language directories.
-	 * @param context The RequestContext
+	 * @param fileDal The FileDal to browse the local TS filesysteam
+	 * @param liveSiteDal The LiveSiteDal to browse the local LS filesysteam
 	 * @param rootElement The root XML Element in which we will store the DCRs
 	 * @param dirPath The directory which we will scan for DCRs, must be TeamSite standard, e.g. .../templatedata/.../.../data/.../[.../]en/
 	 * @param lang The language of DCRs to search for (e.g. "en"), one of LANGUAGES array
