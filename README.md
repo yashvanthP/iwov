@@ -28,3 +28,23 @@ To allow the FAQ QA Search from any page (Pre-Controller JSON)
   * Method: searchJSON
 6.	Call the page (using jQuery) with the search parameter and language, e.g. /faqsearch.page?search=account&axes1=en
 7.	Parse the JSON results in the page to display them in the required format, adding syntax highlighting as required.
+
+**Example configuration for adding custom logger**
+
+To enable debug logging for the DCRSearch Class, add an appender and a logger to your Log4J (or similar) config, e.g.:
+```xml
+<appender name="EBB" class="com.interwoven.livesite.common.io.RelativeFileAppender">
+  <param name="File" value="ebb-debug.log"/>
+  <param name="Append" value="true"/>
+  <param name="Threshold" value="DEBUG"/>
+  <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+  <layout class="org.apache.log4j.PatternLayout">
+    <param name="ConversionPattern" value="%d [%t] %-5p %c (%x) - %m%n"/>
+  </layout>
+</appender>
+
+<logger name="com.bnppf.adm.wmc.wcm.externals" additivity="false">
+  <level value="DEBUG"/>
+  <appender-ref ref="EBB"/>
+</logger>
+```
