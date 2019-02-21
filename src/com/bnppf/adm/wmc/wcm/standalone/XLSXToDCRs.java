@@ -302,7 +302,7 @@ public class XLSXToDCRs {
 									String question = currentRowContent.get("question_" + LANGUAGES[l]);
 									String friendlyURL = Normalizer.normalize(question, Normalizer.Form.NFD).toLowerCase();
 									friendlyURL = friendlyURL.replaceAll("[^\\p{ASCII}]", "");
-									friendlyURL = friendlyURL.trim().replaceAll(" ", "-").replaceAll("[^a-zA-Z0-9\\-]", "");
+									friendlyURL = friendlyURL.replaceAll("[^a-zA-Z0-9\\s+]", "").trim().replaceAll(" ", "-");
 									rootElement.setAttributeValue("analyticsParam", question.replaceAll("\\\"", "").replaceAll("\\?", "").trim());
 									rootElement.addElement("question").setText(question);
 									rootElement.addElement("answer").setText(answerContent);
