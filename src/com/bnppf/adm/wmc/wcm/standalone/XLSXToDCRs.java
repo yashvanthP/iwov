@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.text.DateFormat;
+import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -299,9 +300,13 @@ public class XLSXToDCRs {
 									Document doc = DocumentHelper.createDocument();
 									Element rootElement = doc.addElement("Content");
 									String question = currentRowContent.get("question_" + LANGUAGES[l]);
+									String friendlyURL = Normalizer.normalize(question, Normalizer.Form.NFD).toLowerCase();
+									friendlyURL = friendlyURL.replaceAll("[^\\p{ASCII}]", "");
+									friendlyURL = friendlyURL.trim().replaceAll(" ", "-").replaceAll("[^a-zA-Z0-9\\-]", "");
 									rootElement.setAttributeValue("analyticsParam", question.replaceAll("\\\"", "").replaceAll("\\?", "").trim());
 									rootElement.addElement("question").setText(question);
 									rootElement.addElement("answer").setText(answerContent);
+									rootElement.addElement("friendly-url").setText(friendlyURL);
 
 									String debugOutput = "- Row: " + (row.getRowNum() + 1) + ". Module: " + currentRowModule + "/" + currentRowSubModule + "/" + currentPriorityNum;
 
