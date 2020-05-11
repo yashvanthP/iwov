@@ -1,0 +1,96 @@
+<substitution><container name="generic" location="generic">
+	<label>Generic</label>
+	<item name="type" pathid="type">
+		<label/>
+		<description/>
+		<text required="f" size="40"/>
+	</item>
+	<container combination="and" location="headergraphic" name="headergraphic" min="1" max="1">
+		<label>Header Graphic</label>
+		<item name="src" pathid="src">
+			<label>Banner</label>
+			<description>Click browse to select an image or enter the relative path to the image</description>
+			<browser size="70" required="f" initial-dir="/shared/images/banners"/>
+		</item>
+		<item name="alt" pathid="alt" rowcontinue="f">
+			<label>Banner Alt Text</label>
+			<description>Enter the alt text for the banner graphic</description>
+			<text size="70" required="f"/>
+		</item>
+	</container>
+	<item name="pagecomponent" pathid="pagecomponent">
+		<label>Location</label>
+		<description>Determines left hand navigation and contextual elements for “preview” only</description>
+		<select multiple="f" required="t">
+			<option value="corporate" label="Corporate"/>
+			<option value="crownAgenciesSecretariat" label="Crown Agencies"/>
+			<option value="premier" label="Premier"/>
+			<option value="ministryOfAboriginalRelations" label="Ministry of Aboriginal Relations"/>
+			<option value="ministryOfAdvancedEducationAndLabourMarketDevelopment" label="Ministry of Advanced Education and Labour Market Development"/>
+			<option value="ministryOfAgricultureAndLands" label="Ministry of Agriculture and Lands"/>
+			<option value="ministryOfAttorneyGeneral" label="Ministry of Attorney General"/>
+			<option value="ministryOfChildrenAndFamilyDevelopment" label="Ministry of Children and Family Development"/>
+			<option value="ministryOfCommunityDevelopment" label="Ministry of Community Development"/>
+			<option value="ministryOfEducation" label="Ministry of Education"/>
+			<option value="ministryOfEnergyMinesAndPetroleumResources" label="Ministry of Energy Mines and Petroleum Resources"/>
+			<option value="ministryOfEnvironment" label="Ministry of Environment"/>
+			<option value="ministryOfFinance" label="Ministry of Finance"/>
+			<option value="ministryOfForestsAndRange" label="Ministry of Forests and Range"/>
+			<option value="ministryOfHealthServices" label="Ministry of Health Services"/>
+			<option value="ministryOfHealthyLivingAndSport" label="Ministry of Healthy Living and Sport"/>
+			<option value="ministryOfHousingAndSocialDevelopment" label="Ministry of Housing and Social Development"/>
+			<option value="ministryOfLabourAndCitizensServices" label="Ministry of Labour and Citizens Services"/>
+			<option value="ministryOfPublicSafetyAndSolicitorGeneral" label="Ministry of Public Safety and Solicitor General"/>
+			<option value="ministryOfSmallBusinessAndRevenue" label="Ministry of Small Business and Revenue"/>
+			<option value="ministryOfTechnologyTradeEconomicDevelopment" label="Ministry of Technology, Trade and Economic Development"/>
+			<option value="ministryOfTourismCultureAndTheArts" label="Ministry of Tourism, Culture and The Arts"/>
+			<option value="ministryOfTransportationAndInfrastructure" label="Ministry of Transportation and Infrastructure"/>
+			<option value="intergovernmentalRelationsSecretariat" label="Intergovernmental Relations Secretariat"/>
+			<option value="educationAndLiteracy" label="Education and Literacy"/>
+			<option value="environmentalManagement" label="Environmental Management"/>
+			<option value="jobsAndTheEconomy" label="Jobs and the Economy"/>
+			<option value="healthyLiving" label="Healthy Living"/>
+			<option value="newRelationship" label="New Relationship"/>
+			<option value="systemsOfSupport" label="Systems of Support"/>
+			<option value="2010Olympics" label="2010 Olympics"/>
+			<option value="yourbc" label="YourBC"/>
+			<option value="fortherecord" label="For The Record"/>
+		</select>
+	</item>
+	<item name="pageheading" pathid="pageheading" rowcontinue="f">
+		<label>Page Heading</label>
+		<description>Enter the page heading</description>
+		<text size="70" required="f"/>
+	</item>
+	<item name="mainbody" pathid="mainbody">
+		<label>Main Body</label>
+		<description></description>
+		<textarea cols="80" external-editor="visualformat" external-editor-inline="t" required="f" rows="30" wrap="virtual"/>
+	</item>
+	<container combination="and" location="freeformright" name="freeformright" min="1" max="1">
+		<label>Form Right</label>
+		<item name="formright" pathid="formright">
+			<label>Free Form Right</label>
+			<description/>
+			<textarea cols="80" external-editor="visualformat" external-editor-inline="t" required="f" rows="20" wrap="virtual"/>
+		</item>
+	</container>
+	<container combination="and" location="rightnavliblink" name="rightnavliblink" min="1" max="50">
+		<label>Right Navigation Library Links</label>
+		<item name="navliblinkitem" pathid="navliblinkitem">
+			<label>Right Navigation Library Link Item</label>
+			<description>Select the .html file that contains the content for the right navigation library element.</description>
+			<browser size="70" required="f" initial-dir="/shared/nav_right"/>
+		</item>
+	</container>
+	<container combination="and" location="rightnavtextlink" name="rightnavtextlink" min="1" max="50">
+		<label>Right Navigation Text Links</label>
+		<item name="navtextlinkitem" pathid="navtextlinkitem">
+			<label>Right Navigation Text Link Item</label>
+			<description>Select the right navigation link file that contains the content for the link box or list</description>
+			<browser size="70" required="f" initial-dir="" />
+		</item>
+	</container>
+</container>
+<!-- ****** END OF GENERIC DCT ELEMENTS ****** -->
+</substitution>
