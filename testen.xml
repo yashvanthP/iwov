@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Root>
+	<group-container>
+		<group-name>Accounts</group-name>
+		<icon>list</icon>
+		<external_link_container>
+			<external_link/>
+			<open_in/>
+		</external_link_container>
+		<group-title>
+			<title-name>View accounts</title-name>
+			<cta-btn>CTA</cta-btn>
+			<internal_link_container>
+				<select_page>/sites/fortis-auth-ebb_en/secured/accounts/daily-panorama.page</select_page>
+			</internal_link_container>
+		</group-title>
+		<group-title>
+			<title-name>Accounts</title-name>
+			<cta-btn/>
+			<external_link_container>
+				<external_link/>
+				<open_in/>
+			</external_link_container>
+			<title-links>
+				<title-links-list>Accounts overview</title-links-list>
+				<isabel_enable_link/>
+				<internal_link_container>
+					<select_page>/sites/fortis-auth-ebb_en/secured/accounts/daily-panorama.page</select_page>
+				</internal_link_container>
+			</title-links>
+		</group-title>
+		<group-title>
+			<title-name>History</title-name>
+			<cta-btn/>
+			<external_link_container>
+				<external_link/>
+				<open_in/>
+			</external_link_container>
+			<title-links>
+				<title-links-list>Statements</title-links-list>
+				<isabel_enable_link/>
+				<internal_link_container>
+					<select_page>/sites/fortis-auth-ebb_en/secured/accounts/online-account-statements.page</select_page>
+				</internal_link_container>
+			</title-links>
+			<title-links>
+				<title-links-list>Reporting (Coda/XML)</title-links-list>
+				<isabel_enable_link/>
+				<internal_link_container>
+					<select_page>/sites/fortis-auth-ebb_en/secured/accounts/download-xml-pcbb.page</select_page>
+				</internal_link_container>
+			</title-links>
+			<title-links>
+				<title-links-list>Search transactions</title-links-list>
+				<isabel_enable_link/>
+				<internal_link_container>
+					<select_page>/sites/fortis-auth-ebb_en/secured/accounts/customized-search-transaction.page</select_page>
+				</internal_link_container>
+			</title-links>
+			<title-links>
+				<title-links-list>Download history</title-links-list>
+				<isabel_enable_link/>
+				<internal_link_container>
+					<select_page>/sites/fortis-auth-ebb_en/secured/accounts/download-account-history.page</select_page>
+				</internal_link_container>
+			</title-links>
+		</group-title>
+		<group-title>
+			<title-name>New account</title-name>
+			<cta-btn/>
+			<external_link_container>
+				<external_link/>
+				<open_in/>
+			</external_link_container>
+			<title-links>
+				<title-links-list>Open</title-links-list>
+				<isabel_enable_link/>
+				<internal_link_container>
+					<select_page>/sites/fortis-auth-ebb_en/secured/accounts/online-account-opening.page</select_page>
+				</internal_link_container>
+			</title-links>
+		</group-title>
+	</group-container>
+	<group-container>
+		<group-name>Payments</group-name>
+		<icon>transfer</icon>
+		<external_link_container>
+			<external_link/>
+			<open_in/>
+		</external_link_container>
+		<group-title>
+			<title-name>Create transfer</title-name>
+			<cta-btn>CTA</cta-btn>
+			<internal_link_container>
+				<select_page>/sites/fortis-auth-ebb_en/secured/payments/new-transfer.page</select_page>
+			</internal_link_container>
+		</group-title>
+		<group-title>
+			<title-name>Transfers</title-name>
+			<cta-btn/>
+			<external_link_container>
+				<external_link/>
+				<open_in/>
+			</external_link_container>
+			<title-links>
+				<title-links-list>New transfer</title-links-list>
+				<isabel_enable_link/>
+				<internal_link_container>
+					<select_page>/sites/fortis-auth-ebb_en/secured/payments/new-transfer.page</select_page>
+				</internal_link_container>
+			</title-links>
+			<title-links>
+				<title-links-list>Import file</title-links-list>
+				<isabel_enable_link/>
+				<internal_link_container>
+					<select_page>/sites/fortis-auth-ebb_en/secured/payments/upload-bulk-transfers.page</select_page>
+				</internal_link_container>
+			</title-links>
+			<title-links>
+				<title-links-list>Standing orders</title-links-list>
+				<isabel_enable_link/>
+				<internal_link_container>
+					<select_page>/sites/fortis-auth-ebb_en/secured/payments/standing-orders.page</select_page>
+				</internal_link_container>
+			</title-links>
+			<title-links>
+				<title-links-list>Beneficiaries</title-links-list>
+				<isabel_enable_link/>
+				<internal_link_container>
+					<select_page>/sites/fortis-auth-ebb_en/secured/payments/beneficiary-single-view.page</select_page>
+				</internal_link_container>
+			</title-links>
+			<title-links>
+				<title-links-list>Rejected transfers</title-links-list>
+				<isabel_enable_link/>
+				<internal_link_container>
+					<select_page>/sites/fortis-auth-ebb_en/secured/accounts/rejected-search-transaction.page</select_page>
+				</internal_link_container>
+			</title-links>
+			<title-links>
+				<title-links-list>Planned transfers</title-links-list>
+				<isabel_enable_link/>
+				<internal_link_container>
+					<select_page>/sites/fortis-auth-ebb_en/secured/payments/pending-transfers.page</select_page>
+				</internal_link_container>
+			</title-links>
+			<title-links>
+				<title-links-list>Bulk transfers</title-links-list>
+				<isabel_enable_link/>
+				<internal_link_container>
+					<select_page>/sites/fortis-auth-ebb_en/secured/payments/bulk-transfers-draft-overview.page</select_page>
+				</internal_link_container>
+			</title-links>
+			<title-links>
+				<title-links-list>Zoomit</title-links-list>
+				<isabel_enable_link/>
+				<internal_link_container>
+					<select_page>/sites/fortis-auth-ebb_en/secured/payments/zoomit.page</select_page>
+				</internal_link_container>
+			</title-links>
+			<title-links>
+				<title-links-list>My signatures</title-links-list>
+				<isabel_enable_link/>
+				<internal_link_container>
+					<select_page>/sites/fortis-auth-ebb_en/secured/payments/signature-overview.page</select_page>
+				</internal_link_container>
+			</title-links>
+			<title-links>
+				<title-links-list>MSMC-V3</title-links-list>
+				<isabel_enable_link/>
+				<internal_link_container>
+					<select_page>/sites/fortis-auth-ebb_en/secured/payments/msmc-v3.page</select_page>
+				</internal_link_container>
+			</title-links>
+		</group-title>
+		<group-title>
+			<title-name>Direct debits</title-name>
+			<cta-btn/>
+			<external_link_container>
+				<external_link/>
+				<open_in/>
+			</external_link_container>
+			<title-links>
+				<title-links-list>Direct debits overview</title-links-list>
+				<isabel_enable_link/>
+				<internal_link_container>
+					<select_page>/sites/fortis-auth-ebb_en/secured/payments/your-direct-debits.page</select_page>
+				</internal_link_container>
+			</title-links>
+			<title-links>
+				<title-links-list>Manage mandates</title-links-list>
+				<isabel_enable_link/>
+				<internal_link_container>
+					<select_page>/sites/fortis-auth-ebb_en/secured/payments/sdd-debtor-mandates.page</select_page>
+				</internal_link_container>
+			</title-links>
+			<title-links>
+				<title-links-list>Manage authorisations</title-links-list>
+				<isabel_enable_link/>
+				<internal_link_container>
+					<select_page>/sites/fortis-auth-ebb_en/secured/payments/sdd-account-refusal-mgmt.page</select_page>
+				</internal_link_container>
+			</title-links>
+		</group-title>
+		<group-title>
+			<title-name>Collections</title-name>
+			<cta-btn/>
+			<external_link_container>
+				<external_link/>
+				<open_in/>
+			</external_link_container>
+			<title-links>
+				<title-links-list>Collections overview</title-links-list>
+				<isabel_enable_link/>
+				<internal_link_container>
+					<select_page>/sites/fortis-auth-ebb_en/secured/payments/creditor-payments.page</select_page>
+				</internal_link_container>
+			</title-links>
+			<title-links>
+				<title-links-list>Create</title-links-list>
+				<isabel_enable_link/>
+				<internal_link_container>
+					<select_page>/sites/fortis-auth-ebb_en/secured/payments/sdd-compose-payments-collections.page</select_page>
+				</internal_link_container>
+			</title-links>
+			<title-links>
+				<title-links-list>Import</title-links-list>
+				<isabel_enable_link/>
+				<internal_link_container>
+					<select_page>/sites/fortis-auth-ebb_en/secured/payments/sdd-upload-file.page</select_page>
+				</internal_link_container>
+			</title-links>
+			<title-links>
+				<title-links-list>Send</title-links-list>
+				<isabel_enable_link/>
+				<internal_link_container>
+					<select_page>/sites/fortis-auth-ebb_en/secured/payments/manage-payments-composed-online.page</select_page>
+				</internal_link_container>
+			</title-links>
+			<title-links>
+				<title-links-list>Search</title-links-list>
+				<isabel_enable_link/>
+				<internal_link_container>
+					<select_page>/sites/fortis-auth-ebb_en/secured/payments/search-collection.page</select_page>
+				</internal_link_container>
+			</title-links>
+			<title-links>
+				<title-links-list>Manage your debtors</title-links-list>
+				<isabel_enable_link/>
+				<internal_link_container>
+					<select_page>/sites/fortis-auth-ebb_en/secured/payments/manage-debtor-mandates.page</select_page>
+				</internal_link_container>
+			</title-links>
+		</group-title>
+	</group-container>
+	
+</Root>
